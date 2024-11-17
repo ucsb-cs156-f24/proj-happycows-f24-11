@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f24/proj-happycows-f24-11
 owner: ucsb-cs156-f24
 repo_name: proj-happycows-f24-11
-pull_requests: []
+pull_requests: [{"author":{"id":"MDQ6VXNlcjY4MzEyNjY0","is_bot":false,"login":"blobthebuilder","name":"Frank Wang"},"headRefName":"Frank-ProfitTableWidth","number":12,"title":"Fix profit table width closes #8","url":"https://github.com/ucsb-cs156-f24/proj-happycows-f24-11/pull/12"}]
