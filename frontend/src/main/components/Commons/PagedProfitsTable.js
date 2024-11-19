@@ -71,7 +71,7 @@ const PagedProfitsTable = () => {
       accessor: "avgCowHealth",
       Cell: ({ value }) => (
         <>
-          {`$${value.toFixed(2)}`}{" "}
+          {`${value.toFixed(2)}`}%{" "}
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </>
       ),
