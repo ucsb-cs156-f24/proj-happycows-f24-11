@@ -124,7 +124,20 @@
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -165,12 +178,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -191,59 +217,72 @@ import { Card, Button, Container, Row, Col } from "react-bootstrap";
 const curr = new Date();
 &nbsp;
 function isFutureDate(startingDate) {
-    const startYear = parseInt(startingDate);
-    const startMonth = parseInt(startingDate.substring(5,7));
-    const startDate = parseInt(startingDate.substring(8,10));
-    const currYear = curr.getFullYear();
-    const currMonth = curr.getMonth() + 1;
-    const currDate = curr.getDate();
+  const startYear = parseInt(startingDate);
+  const startMonth = parseInt(startingDate.substring(5, 7));
+  const startDate = parseInt(startingDate.substring(8, 10));
+  const currYear = curr.getFullYear();
+  const currMonth = curr.getMonth() + 1;
+  const currDate = curr.getDate();
 &nbsp;
-    if (startYear === currYear) {
-        if (startMonth === currMonth) {
-            return startDate &gt; currDate;
-        } else {
-            // Stryker disable next-line all: mutation test unreasonable
-            return startMonth &gt; currMonth;
-        }
+  if (startYear === currYear) {
+    if (startMonth === currMonth) {
+      return startDate &gt; currDate;
     } else {
-        // Stryker disable next-line all: mutation test unreasonable
-        return startYear &gt; currYear;
+      // Stryker disable next-line all: mutation test unreasonable
+      return startMonth &gt; currMonth;
     }
+  } else {
+    // Stryker disable next-line all: mutation test unreasonable
+    return startYear &gt; currYear;
+  }
 }
 &nbsp;
 const CommonsCard = ({ buttonText, buttonLink, commons }) =&gt; {
-    const testIdPrefix = "commonsCard";
-    return (
-        &lt;Card.Body className = "woodenboardtable"&gt;
-            &lt;Container&gt;
-                &lt;Row&gt;
-                    &lt;Col sx={4} data-testid={`${testIdPrefix}-id-${commons.id}`}&gt;{commons.id}&lt;/Col&gt;
-                    &lt;Col sx={4} data-testid={`${testIdPrefix}-name-${commons.id}`}&gt;{commons.name}&lt;/Col&gt;
-                    {buttonText != null &amp;&amp;
-                        &lt;Col sm={4}&gt;
-                            &lt;Button
-                                data-testid={`${testIdPrefix}-button-${buttonText}-${commons.id}`}
-                                size="sm"
-                                className="buttonchange"
-                                onClick={() =&gt; {
-                                    if (buttonText === "Join" &amp;&amp; isFutureDate(commons.startingDate)) {
-                                        // Stryker disable next-line all: unable to read alert text in tests
-                                        alert("This commons has not started yet and cannot be joined.\nThe starting date is " + parseInt(commons.startingDate.substring(5,7)) + "/" + parseInt(commons.startingDate.substring(8,10)) + "/" + parseInt(commons.startingDate));
-                                    } else {
-                                        buttonLink(commons.id);
-                                    }
-                                    }} &gt;{buttonText}
-                            &lt;/Button&gt;
-                        &lt;/Col&gt;
-                    }
-                &lt;/Row&gt;
-            &lt;/Container&gt;
-        &lt;/Card.Body&gt;
-    );
+  const testIdPrefix = "commonsCard";
+  return (
+    &lt;Card.Body className="woodenboardtable"&gt;
+      &lt;Container&gt;
+        &lt;Row&gt;
+          &lt;Col sx={4} data-testid={`${testIdPrefix}-id-${commons.id}`}&gt;
+            {commons.id}
+          &lt;/Col&gt;
+          &lt;Col sx={4} data-testid={`${testIdPrefix}-name-${commons.id}`}&gt;
+            {commons.name}
+          &lt;/Col&gt;
+          {buttonText != null &amp;&amp; (
+            &lt;Col sm={4}&gt;
+              &lt;Button
+                data-testid={`${testIdPrefix}-button-${buttonText}-${commons.id}`}
+                size="sm"
+                className="buttonchange"
+                onClick={() =&gt; {
+                  if (
+                    buttonText === "Join" &amp;&amp;
+                    isFutureDate(commons.startingDate)
+                  ) {
+                    // Stryker disable next-line all: unable to read alert text in tests
+                    alert(
+                      "This commons has not started yet and cannot be joined.\nThe starting date is " +
+                        parseInt(commons.startingDate.substring(5, 7)) +
+                        "/" +
+                        parseInt(commons.startingDate.substring(8, 10)) +
+                        "/" +
+                        parseInt(commons.startingDate)
+                    );
+                  } else {
+                    buttonLink(commons.id);
+                  }
+                }}
+              &gt;
+                {buttonText}
+              &lt;/Button&gt;
+            &lt;/Col&gt;
+          )}
+        &lt;/Row&gt;
+      &lt;/Container&gt;
+    &lt;/Card.Body&gt;
+  );
 };
-&nbsp;
-&nbsp;
-&nbsp;
 &nbsp;
 export default CommonsCard;
 &nbsp;</pre></td></tr></table></pre>
@@ -253,7 +292,7 @@ export default CommonsCard;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Tue Nov 19 2024 18:07:26 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

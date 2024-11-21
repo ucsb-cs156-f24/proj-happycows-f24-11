@@ -194,27 +194,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -303,134 +303,134 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Button, Form } from 'react-bootstrap';
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Button, Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 &nbsp;
-function AnnouncementForm({ initialContents, submitAction, buttonLabel = "Create" }) {
+function AnnouncementForm({
+  initialContents,
+  submitAction,
+  buttonLabel = "Create",
+}) {
+  // Stryker disable all
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ defaultValues: initialContents || {} });
+  // Stryker restore all
 &nbsp;
-    // Stryker disable all
-    const {
-        register,
-        formState: { errors },
-        handleSubmit,
-    } = useForm(
-        { defaultValues: initialContents || {}, }
-    );
-    // Stryker restore all
+  const navigate = useNavigate();
 &nbsp;
-    const navigate = useNavigate();
+  const testIdPrefix = "AnnouncementForm";
 &nbsp;
-    const testIdPrefix = "AnnouncementForm";
+  // For explanation, see: https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime
+  // Note that even this complex regex may still need some tweaks
 &nbsp;
-    // For explanation, see: https://stackoverflow.com/questions/3143070/javascript-regex-iso-datetime
-    // Note that even this complex regex may still need some tweaks
+  // Stryker disable next-line Regex
+  const isodate_regex =
+    /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
 &nbsp;
-    // Stryker disable next-line Regex
-    const isodate_regex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/i;
+  // Stryker disable next-line all
+  //const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
 &nbsp;
-    // Stryker disable next-line all
-    //const yyyyq_regex = /((19)|(20))\d{2}[1-4]/i; // Accepts from 1900-2099 followed by 1-4.  Close enough.
+  return (
+    &lt;Form onSubmit={handleSubmit(submitAction)}&gt;
+      {initialContents &amp;&amp; (
+        &lt;Form.Group className="mb-3"&gt;
+          &lt;Form.Label htmlFor="id"&gt;Id&lt;/Form.Label&gt;
+          &lt;Form.Control
+            // Stryker disable next-line all
+            data-testid={testIdPrefix + "-id"}
+            id="id"
+            type="text"
+            {...register("id")}
+            value={initialContents.id}
+            disabled
+          /&gt;
+        &lt;/Form.Group&gt;
+      )}
 &nbsp;
-    return (
+      &lt;Form.Group className="mb-3"&gt;
+        &lt;Form.Label htmlFor="startDate"&gt;Start Date&lt;/Form.Label&gt;
+        &lt;Form.Control
+          // Stryker disable next-line all
+          data-testid={testIdPrefix + "-startDate"}
+          id="startDate"
+          type="datetime-local"
+          isInvalid={Boolean(errors.startDate)}
+          {...register("startDate", {
+            required: "StartDate is required.",
+            pattern: isodate_regex,
+          })}
+        /&gt;
+        &lt;Form.Control.Feedback type="invalid"&gt;
+          {errors.startDate &amp;&amp;
+            "Start Date is required and must be provided in ISO format."}
+        &lt;/Form.Control.Feedback&gt;
+      &lt;/Form.Group&gt;
 &nbsp;
-        &lt;Form onSubmit={handleSubmit(submitAction)}&gt;
+      &lt;Form.Group className="mb-3"&gt;
+        &lt;Form.Label htmlFor="endDate"&gt;End Date&lt;/Form.Label&gt;
+        &lt;Form.Control
+          // Stryker disable next-line all
+          data-testid={testIdPrefix + "-endDate"}
+          id="endDate"
+          type="datetime-local"
+          isInvalid={Boolean(errors.endDate)}
+          // Stryker disable next-line all
+          {...register("endDate", {
+            pattern: isodate_regex,
+          })}
+        /&gt;
+      &lt;/Form.Group&gt;
 &nbsp;
-            {initialContents &amp;&amp; (
-                &lt;Form.Group className="mb-3" &gt;
-                    &lt;Form.Label htmlFor="id"&gt;Id&lt;/Form.Label&gt;
-                    &lt;Form.Control
-                    // Stryker disable next-line all
-                        data-testid={testIdPrefix + "-id"}
-                        id="id"
-                        type="text"
-                        {...register("id")}
-                        value={initialContents.id}
-                        disabled
-                    /&gt;
-                &lt;/Form.Group&gt;
-            )}
+      &lt;Form.Group className="mb-3"&gt;
+        &lt;Form.Label htmlFor="announcementText"&gt;Announcement&lt;/Form.Label&gt;
+        &lt;Form.Control
+          as="textarea"
+          // Stryker disable next-line all
+          data-testid={testIdPrefix + "-announcementText"}
+          id="announcementText"
+          rows={5}
+          isInvalid={Boolean(errors.announcementText)}
+          {...register("announcementText", {
+            required: "Announcement is required.",
+          })}
+        /&gt;
+        &lt;Form.Control.Feedback type="invalid"&gt;
+          {errors.announcementText?.message}
+        &lt;/Form.Control.Feedback&gt;
+      &lt;/Form.Group&gt;
 &nbsp;
-            &lt;Form.Group className="mb-3" &gt;
-                &lt;Form.Label htmlFor="startDate"&gt;Start Date&lt;/Form.Label&gt;
-                &lt;Form.Control
-                // Stryker disable next-line all
-                    data-testid={testIdPrefix + "-startDate"}
-                    id="startDate"
-                    type="datetime-local"
-                    isInvalid={Boolean(errors.startDate)}
-                    {...register("startDate", {
-                        required: "StartDate is required.",
-                        pattern: isodate_regex
-                    })}
-                /&gt;
-                &lt;Form.Control.Feedback type="invalid"&gt;
-                    {errors.startDate &amp;&amp; 'Start Date is required and must be provided in ISO format.'}
-                &lt;/Form.Control.Feedback&gt;
-            &lt;/Form.Group&gt;
-&nbsp;
-            &lt;Form.Group className="mb-3" &gt;
-                &lt;Form.Label htmlFor="endDate"&gt;End Date&lt;/Form.Label&gt;
-                &lt;Form.Control
-                // Stryker disable next-line all
-                    data-testid={testIdPrefix + "-endDate"}
-                    id="endDate"
-                    type="datetime-local"
-                    isInvalid={Boolean(errors.endDate)}
-                    // Stryker disable next-line all
-                    {...register("endDate", {
-                        pattern: isodate_regex
-                    })}
-                /&gt;
-            &lt;/Form.Group&gt;
-&nbsp;
-&nbsp;
-            &lt;Form.Group className="mb-3"&gt;
-                &lt;Form.Label htmlFor="announcementText"&gt;Announcement&lt;/Form.Label&gt;
-                &lt;Form.Control
-                    as="textarea"
-                    // Stryker disable next-line all
-                    data-testid={testIdPrefix + "-announcementText"}
-                    id="announcementText"
-                    rows={5}
-                    isInvalid={Boolean(errors.announcementText)}
-                    {...register("announcementText", {
-                        required: "Announcement is required."
-                    })}
-                /&gt;
-                &lt;Form.Control.Feedback type="invalid"&gt;
-                    {errors.announcementText?.message}
-                &lt;/Form.Control.Feedback&gt;
-            &lt;/Form.Group&gt;
-&nbsp;
-            &lt;Button
-                type="submit"
-                // Stryker disable next-line all
-                data-testid={testIdPrefix + "-submit"}
-            &gt;
-                {buttonLabel}
-            &lt;/Button&gt;
-            &lt;Button
-                variant="Secondary"
-                onClick={() =&gt; navigate(-1)}
-                // Stryker disable next-line all
-                data-testid={testIdPrefix + "-cancel"}
-            &gt;
-                Cancel
-            &lt;/Button&gt;
-&nbsp;
-        &lt;/Form&gt;
-    )
+      &lt;Button
+        type="submit"
+        // Stryker disable next-line all
+        data-testid={testIdPrefix + "-submit"}
+      &gt;
+        {buttonLabel}
+      &lt;/Button&gt;
+      &lt;Button
+        variant="Secondary"
+        onClick={() =&gt; navigate(-1)}
+        // Stryker disable next-line all
+        data-testid={testIdPrefix + "-cancel"}
+      &gt;
+        Cancel
+      &lt;/Button&gt;
+    &lt;/Form&gt;
+  );
 }
 &nbsp;
-export default AnnouncementForm;</pre></td></tr></table></pre>
+export default AnnouncementForm;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Tue Nov 19 2024 18:07:26 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

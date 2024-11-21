@@ -142,7 +142,44 @@
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -150,6 +187,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">390x</span>
 <span class="cline-any cline-yes">390x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -224,41 +288,52 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
-import AppNavbarLocalhost from "main/components/Nav/AppNavbarLocalhost"
+import AppNavbarLocalhost from "main/components/Nav/AppNavbarLocalhost";
 &nbsp;
-export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUrl = window.location.href }) {
+export default function AppNavbar({
+  currentUser,
+  systemInfo,
+  doLogout,
+  currentUrl = window.location.href,
+}) {
   var oauthLogin = systemInfo?.oauthLogin || "/oauth2/authorization/google";
   return (
     &lt;&gt;
-      {
-        (currentUrl.startsWith("http://localhost:3000") ||
-          currentUrl.startsWith("http://127.0.0.1:3000")) &amp;&amp; (
-          &lt;AppNavbarLocalhost url={currentUrl} /&gt;
-        )
-      }
-      &lt;Navbar expand="xl" variant="dark" bg="dark" sticky="top" data-testid="AppNavbar"&gt;
+      {(currentUrl.startsWith("http://localhost:3000") ||
+        currentUrl.startsWith("http://127.0.0.1:3000")) &amp;&amp; (
+        &lt;AppNavbarLocalhost url={currentUrl} /&gt;
+      )}
+      &lt;Navbar
+        expand="xl"
+        variant="dark"
+        bg="dark"
+        sticky="top"
+        data-testid="AppNavbar"
+      &gt;
         &lt;Container&gt;
-          &lt;Navbar.Brand as={Link} to="/" /*Stryker disable next-line all : don't mutation test CSS */ style= {{ fontFamily: 'Rye'}}&gt;
+          &lt;Navbar.Brand
+            as={Link}
+            to="/"
+            /*Stryker disable next-line all : don't mutation test CSS */ style={{
+              fontFamily: "Rye",
+            }}
+          &gt;
             Happy Cows
           &lt;/Navbar.Brand&gt;
 &nbsp;
           &lt;Navbar.Toggle /&gt;
 &nbsp;
           &lt;Nav className="me-auto"&gt;
-            {
-              systemInfo?.springH2ConsoleEnabled &amp;&amp; (
-                &lt;&gt;
-                  &lt;Nav.Link href="/h2-console"&gt;H2Console&lt;/Nav.Link&gt;
-                &lt;/&gt;
-              )
-            }
-            {
-              systemInfo?.showSwaggerUILink &amp;&amp; (
-                &lt;&gt;
-                  &lt;Nav.Link href="/swagger-ui/index.html"&gt;Swagger&lt;/Nav.Link&gt;
-                &lt;/&gt;
-              )
-            }
+            {systemInfo?.springH2ConsoleEnabled &amp;&amp; (
+              &lt;&gt;
+                &lt;Nav.Link href="/h2-console"&gt;H2Console&lt;/Nav.Link&gt;
+              &lt;/&gt;
+            )}
+            {systemInfo?.showSwaggerUILink &amp;&amp; (
+              &lt;&gt;
+                &lt;Nav.Link href="/swagger-ui/index.html"&gt;Swagger&lt;/Nav.Link&gt;
+              &lt;/&gt;
+            )}
           &lt;/Nav&gt;
 &nbsp;
           &lt;&gt;
@@ -267,47 +342,68 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
 &nbsp;
           &lt;Navbar.Collapse className="justify-content-between"&gt;
             &lt;Nav className="mr-auto"&gt;
-              {
-                hasRole(currentUser, "ROLE_ADMIN") &amp;&amp; (
-                  &lt;NavDropdown title="Admin" id="appnavbar-admin-dropdown" data-testid="appnavbar-admin-dropdown" &gt;
-                    &lt;NavDropdown.Item href="/admin/createcommons"&gt;Create Commons&lt;/NavDropdown.Item&gt;
-                    &lt;NavDropdown.Item href="/admin/listcommons"&gt;List Commons&lt;/NavDropdown.Item&gt;
-                    &lt;NavDropdown.Item href="/admin/users"&gt;Users&lt;/NavDropdown.Item&gt;
-                    &lt;NavDropdown.Item href="/admin/jobs"&gt;Manage Jobs&lt;/NavDropdown.Item&gt;
-                    &lt;NavDropdown.Item href="/admin/reports"&gt;Instructor Reports&lt;/NavDropdown.Item&gt;
-                  &lt;/NavDropdown&gt;
-                )
-              }
+              {hasRole(currentUser, "ROLE_ADMIN") &amp;&amp; (
+                &lt;NavDropdown
+                  title="Admin"
+                  id="appnavbar-admin-dropdown"
+                  data-testid="appnavbar-admin-dropdown"
+                &gt;
+                  &lt;NavDropdown.Item href="/admin/createcommons"&gt;
+                    Create Commons
+                  &lt;/NavDropdown.Item&gt;
+                  &lt;NavDropdown.Item href="/admin/listcommons"&gt;
+                    List Commons
+                  &lt;/NavDropdown.Item&gt;
+                  &lt;NavDropdown.Item href="/admin/users"&gt;Users&lt;/NavDropdown.Item&gt;
+                  &lt;NavDropdown.Item href="/admin/jobs"&gt;
+                    Manage Jobs
+                  &lt;/NavDropdown.Item&gt;
+                  &lt;NavDropdown.Item href="/admin/reports"&gt;
+                    Instructor Reports
+                  &lt;/NavDropdown.Item&gt;
+                &lt;/NavDropdown&gt;
+              )}
             &lt;/Nav&gt;
 &nbsp;
             &lt;Nav className="ml-auto"&gt;
-              {
-                currentUser &amp;&amp; currentUser.loggedIn ? (
-                  &lt;&gt;
-                    &lt;Navbar.Text className="me-3" as={Link} to="/profile"&gt;Welcome, {currentUser.root.user.email}&lt;/Navbar.Text&gt;
-                    &lt;Button onClick={doLogout} /*Stryker disable next-line all : don't mutation test CSS*/ 
-                    style= {{ fontFamily: 'Rye'}} &gt;Log Out&lt;/Button&gt;
-                  &lt;/&gt;
-                ) : (
-                  &lt;Button href={oauthLogin} 
-                    /*Stryker disable next-line all : don't mutation test CSS*/ 
-                  style= {{ fontFamily: 'Rye'}} &gt;Log In&lt;/Button&gt;
-                )
-              }
+              {currentUser &amp;&amp; currentUser.loggedIn ? (
+                &lt;&gt;
+                  &lt;Navbar.Text className="me-3" as={Link} to="/profile"&gt;
+                    Welcome, {currentUser.root.user.email}
+                  &lt;/Navbar.Text&gt;
+                  &lt;Button
+                    onClick={
+                      doLogout
+                    } /*Stryker disable next-line all : don't mutation test CSS*/
+                    style={{ fontFamily: "Rye" }}
+                  &gt;
+                    Log Out
+                  &lt;/Button&gt;
+                &lt;/&gt;
+              ) : (
+                &lt;Button
+                  href={oauthLogin}
+                  /*Stryker disable next-line all : don't mutation test CSS*/
+                  style={{ fontFamily: "Rye" }}
+                &gt;
+                  Log In
+                &lt;/Button&gt;
+              )}
             &lt;/Nav&gt;
           &lt;/Navbar.Collapse&gt;
-        &lt;/Container &gt;
-      &lt;/Navbar &gt;
+        &lt;/Container&gt;
+      &lt;/Navbar&gt;
     &lt;/&gt;
   );
-}</pre></td></tr></table></pre>
+}
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Tue Nov 19 2024 18:07:26 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/15</span>
+                <span class='fraction'>16/16</span>
             </div>
         
             
@@ -153,7 +153,16 @@
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
 <a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -172,7 +181,6 @@
 <span class="cline-any cline-yes">38x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">38x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -195,17 +203,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">38x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">38x</span>
 <span class="cline-any cline-yes">38x</span>
 <span class="cline-any cline-yes">38x</span>
@@ -214,6 +217,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">38x</span>
 <span class="cline-any cline-yes">38x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">38x</span>
@@ -243,7 +248,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useEffect } from "react"
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useEffect } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 &nbsp;
@@ -254,84 +272,93 @@ import { useCurrentUser } from "main/utils/currentUser";
 import { commonsNotJoined } from "main/utils/commonsUtils";
 import getBackgroundImage from "main/components/Utils/HomePageBackground";
 &nbsp;
-import "./HomePage.css"
+import "./HomePage.css";
 &nbsp;
-export default function HomePage({hour=null}) {
+export default function HomePage({ hour = null }) {
   // Stryker disable next-line all: it is acceptable to exclude useState calls from mutation testing
   const [commonsJoined, setCommonsJoined] = useState([]);
   const { data: currentUser } = useCurrentUser();
 &nbsp;
   // Stryker disable all : it is acceptable to exclude useBackend calls from mutation testing
-  const { data: commons } =
-    useBackend(
-      ["/api/commons/all"],
-      { url: "/api/commons/all" },
-      []
-    );
+  const { data: commons } = useBackend(
+    ["/api/commons/all"],
+    { url: "/api/commons/all" },
+    []
+  );
   // Stryker restore all
 &nbsp;
   const objectToAxiosParams = (newCommonsId) =&gt; ({
     url: "/api/commons/join",
     method: "POST",
     params: {
-      commonsId: newCommonsId
-    }
+      commonsId: newCommonsId,
+    },
   });
 &nbsp;
   // Stryker disable all : it is acceptable to exclude useBackendMutation calls from mutation testing
-  const mutation = useBackendMutation(
-    objectToAxiosParams,
-    {},
-    ["/api/currentUser"]
-  );
+  const mutation = useBackendMutation(objectToAxiosParams, {}, [
+    "/api/currentUser",
+  ]);
   // Stryker restore all
 &nbsp;
-&nbsp;
   // Stryker disable all : TODO: restructure this code to avoid the need for this disable
-  useEffect(
-    () =&gt; {
-      if (currentUser?.root?.user?.commons) {
-        setCommonsJoined(currentUser.root.user.commons);
-      }
-    }, [currentUser]
-  );
+  useEffect(() =&gt; {
+    if (currentUser?.root?.user?.commons) {
+      setCommonsJoined(currentUser.root.user.commons);
+    }
+  }, [currentUser]);
 &nbsp;
-  const firstName = (currentUser?.root?.user?.givenName) || "";
-  const time = (hour===null) ? new Date().getHours() : hour;
+  const firstName = currentUser?.root?.user?.givenName || "";
+  const time = hour === null ? new Date().getHours() : hour;
   const Background = getBackgroundImage(time);
 &nbsp;
   // Stryker restore all
 &nbsp;
   let navigate = useNavigate();
-  const visitButtonClick = (id) =&gt; { navigate("/play/" + id) };
+  const visitButtonClick = (id) =&gt; {
+    navigate("/play/" + id);
+  };
 &nbsp;
   //create a list of commons that the user hasn't joined for use in the "Join a New Commons" list.
   const commonsNotJoinedList = commonsNotJoined(commons, commonsJoined);
-  
+&nbsp;
   return (
-    &lt;div data-testid={"HomePage-main-div"} style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}&gt;
+    &lt;div
+      data-testid={"HomePage-main-div"}
+      style={{ backgroundSize: "cover", backgroundImage: `url(${Background})` }}
+    &gt;
       &lt;BasicLayout&gt;
-      &lt;Card data-testid= {"HomePage-intro-card"} className= "woodentitle"&gt;
-      &lt;div className= "text-center border-0 my-3"&gt;
-              &lt;h1 data-testid="homePage-title" className="animate-charcter" &gt;Howdy Farmer {firstName}&lt;/h1&gt;
-              &lt;/div&gt;
-      &lt;/Card&gt;
+        &lt;Card data-testid={"HomePage-intro-card"} className="woodentitle"&gt;
+          &lt;div className="text-center border-0 my-3"&gt;
+            &lt;h1 data-testid="homePage-title" className="animate-charcter"&gt;
+              Howdy Farmer {firstName}
+            &lt;/h1&gt;
+          &lt;/div&gt;
+        &lt;/Card&gt;
         &lt;Container&gt;
           &lt;Row&gt;
-&nbsp;
-            &lt;Col sm&gt;&lt;CommonsList commonList={commonsNotJoinedList} title="Join A New Commons" buttonText={"Join"} buttonLink={mutation.mutate} /&gt;
-            
+            &lt;Col sm&gt;
+              &lt;CommonsList
+                commonList={commonsNotJoinedList}
+                title="Join A New Commons"
+                buttonText={"Join"}
+                buttonLink={mutation.mutate}
+              /&gt;
             &lt;/Col&gt;
 &nbsp;
-            &lt;Col sm&gt;&lt;CommonsList commonList={commonsJoined} title="Visit A Commons" buttonText={"Visit"} buttonLink={visitButtonClick} /&gt;
-            
+            &lt;Col sm&gt;
+              &lt;CommonsList
+                commonList={commonsJoined}
+                title="Visit A Commons"
+                buttonText={"Visit"}
+                buttonLink={visitButtonClick}
+              /&gt;
             &lt;/Col&gt;
-&nbsp;
           &lt;/Row&gt;
         &lt;/Container&gt;
       &lt;/BasicLayout&gt;
     &lt;/div&gt;
-  )
+  );
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -340,7 +367,7 @@ export default function HomePage({hour=null}) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Tue Nov 19 2024 18:07:26 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../prettify.js"></script>
         <script>
