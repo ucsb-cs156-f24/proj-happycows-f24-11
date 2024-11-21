@@ -128,10 +128,9 @@
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -174,14 +173,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -189,83 +191,87 @@
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import OurTable, { ButtonColumn } from "main/components/OurTable";
 import { useNavigate } from "react-router-dom";
 &nbsp;
 // should take in a players list from a commons
-export default function ReportTable({
-  reports,
-  storybook = false,
-  buttons = true,
-}) {
-  const testid = "ReportTable";
+export default function ReportTable({ reports, storybook = false, buttons=true }) {
 &nbsp;
-  const navigate = useNavigate();
+    const testid = "ReportTable";
 &nbsp;
-  const reportCallback = (cell) =&gt; {
-    const route = `/admin/report/${cell.row.values["id"]}`;
-    if (storybook) {
-      window.alert(`would navigate to ${route}`);
-    } else {
-      navigate(route);
+    const navigate = useNavigate();
+&nbsp;
+    const reportCallback = (cell) =&gt; {
+        const route = `/admin/report/${cell.row.values["id"]}`
+        if (storybook) {
+            window.alert(`would navigate to ${route}`);
+        } else {
+            navigate(route)
+        }
     }
-  };
 &nbsp;
-  const columns = [
-    {
-      Header: "id",
-      accessor: "id",
-    },
-    {
-      Header: "commonsId",
-      accessor: "commonsId",
-      Cell: (props) =&gt; {
-        return &lt;div style={{ textAlign: "right" }}&gt;{props.value}&lt;/div&gt;;
-      },
-    },
-    {
-      Header: "Name",
-      accessor: "name",
-    },
-    {
-      Header: "Create Date",
-      accessor: "createDate",
-    },
-    {
-      Header: "Num Users",
-      accessor: "numUsers",
-      Cell: (props) =&gt; {
-        return &lt;div style={{ textAlign: "right" }}&gt;{props.value}&lt;/div&gt;;
-      },
-    },
-    {
-      Header: "Num Cows",
-      accessor: "numCows",
-      Cell: (props) =&gt; {
-        return &lt;div style={{ textAlign: "right" }}&gt;{props.value}&lt;/div&gt;;
-      },
-    },
-  ];
+    const columns = [
+        {
+            Header: 'id',
+            accessor: 'id',
+        },
+        {
+            Header: 'commonsId',
+            accessor: 'commonsId',
+            Cell: (props) =&gt; {
+                return (
+                  &lt;div style={{textAlign: "right"}}&gt;{props.value}&lt;/div&gt;)
+            },
+        },
+        {
+            Header: 'Name',
+            accessor: 'name',
+        },
+        {
+            Header: 'Create Date',
+            accessor: 'createDate',
+        },
+        {
+            Header: 'Num Users',
+            accessor: 'numUsers',
+            Cell: (props) =&gt; {
+                return (
+                  &lt;div style={{textAlign: "right"}}&gt;{props.value}&lt;/div&gt;)
+            },
+        },
+        {
+            Header: 'Num Cows',
+            accessor: 'numCows',
+            Cell: (props) =&gt; {
+                return (
+                  &lt;div style={{textAlign: "right"}}&gt;{props.value}&lt;/div&gt;)
+            },
+        },
+    ];
 &nbsp;
-  if (buttons) {
-    columns.push(
-      ButtonColumn("View Report", "secondary", reportCallback, testid)
-    );
-  }
-  return &lt;OurTable data={reports} columns={columns} testid={testid} /&gt;;
-}
-&nbsp;</pre></td></tr></table></pre>
+    if (buttons) {
+        columns.push(ButtonColumn("View Report", "secondary", reportCallback, testid));
+    }
+    return &lt;OurTable
+        data={reports}
+        columns={columns}
+        testid={testid}
+    /&gt;;
+&nbsp;
+};</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:58:09 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

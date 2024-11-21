@@ -142,12 +142,7 @@
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a>
-<a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -163,11 +158,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">120x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -238,80 +228,75 @@ import { useParams } from "react-router-dom";
 &nbsp;
 // add parameters
 const ManageCows = ({ userCommons, commons, setMessage, openModal }) =&gt; {
-  // update cowPrice from fixture
-  const { data: currentUser } = useCurrentUser();
-  let { userId } = useParams();
-  userId = userId ? parseInt(userId, 10) : NaN;
-  // Stryker disable all
-  const isViewOnly = hasRole(currentUser, "ROLE_ADMIN") &amp;&amp; !isNaN(userId);
+    // update cowPrice from fixture
+    const { data: currentUser } = useCurrentUser();
+    let { userId } = useParams();
+    userId = userId ? parseInt(userId, 10) : NaN;
+    // Stryker disable all
+    const isViewOnly = hasRole(currentUser, "ROLE_ADMIN") &amp;&amp; !isNaN(userId);
 &nbsp;
-  // Stryker restore all
-  return (
-    &lt;Card&gt;
-      &lt;Card.Header as="h5" className="woodenboardtable"&gt;
-        Manage Cows
-      &lt;/Card.Header&gt;
-      &lt;Card.Body
-        style={
-          // Stryker disable next-line all: don't test CSS params
-          { backgroundColor: "rgb(245, 210, 140)" }
-        }
-      &gt;
-        {/* change $10 to info from fixture */}
-        &lt;Card.Title className="text-center"&gt;
-          💵 Market Cow Price: ${commons?.cowPrice}
-        &lt;/Card.Title&gt;
-        &lt;Card.Title className="text-center"&gt;
-          🐮 Number of Cows: {userCommons.numOfCows}
-        &lt;/Card.Title&gt;
-        &lt;Card.Title className="text-center"&gt;
-          🥛 Current Milk Price: ${commons?.milkPrice}
-        &lt;/Card.Title&gt;
-        {/* when the ID doesnt match, dont show the buy/sell button */}
-        {isViewOnly ? (
-          &lt;&gt;
-            &lt;p data-testid="ManageCows-ViewOnly"&gt;
-              This page is for viewing only, cannot buy and sell cows.
-            &lt;/p&gt;
-          &lt;/&gt;
-        ) : (
-          &lt;&gt;
-            &lt;Row&gt;
-              &lt;Col className="text-center"&gt;
-                &lt;Button
-                  variant="outline-success"
-                  onClick={() =&gt; {
-                    setMessage("buy");
-                    openModal();
-                  }}
-                  data-testid={"buy-cow-button"}
-                &gt;
-                  Buy cows
-                &lt;/Button&gt;
-              &lt;/Col&gt;
-              &lt;Col className="text-center"&gt;
-                &lt;Button
-                  variant="outline-danger"
-                  onClick={() =&gt; {
-                    setMessage("sell");
-                    openModal();
-                  }}
-                  data-testid={"sell-cow-button"}
-                &gt;
-                  Sell cows
-                &lt;/Button&gt;
-              &lt;/Col&gt;
-            &lt;/Row&gt;
-            &lt;p&gt;
-              Note: Buying cows buys at the current cow price, but selling cows
-              sells at the current cow price times the average health of cows as
-              a percentage!
-            &lt;/p&gt;
-          &lt;/&gt;
-        )}
-      &lt;/Card.Body&gt;
-    &lt;/Card&gt;
-  );
+    // Stryker restore all
+    return (
+        &lt;Card&gt;
+            &lt;Card.Header as="h5" className= "woodenboardtable" &gt;Manage Cows&lt;/Card.Header&gt;
+            &lt;Card.Body style={// Stryker disable next-line all: don't test CSS params
+                {backgroundColor: "rgb(245, 210, 140)"}}&gt;
+                {/* change $10 to info from fixture */}
+                &lt;Card.Title className="text-center"&gt;
+                    💵 Market Cow Price: ${commons?.cowPrice}
+                &lt;/Card.Title&gt;
+                &lt;Card.Title className="text-center"&gt;
+                    🐮 Number of Cows: {userCommons.numOfCows}
+                &lt;/Card.Title&gt;
+                &lt;Card.Title className="text-center"&gt;
+                    🥛 Current Milk Price: ${commons?.milkPrice}
+                &lt;/Card.Title&gt;
+                {/* when the ID doesnt match, dont show the buy/sell button */}
+                {isViewOnly ? (
+                    &lt;&gt;
+                        &lt;p data-testid="ManageCows-ViewOnly"&gt;
+                            This page is for viewing only, cannot buy and sell
+                            cows.
+                        &lt;/p&gt;
+                    &lt;/&gt;
+                ) : (
+                    &lt;&gt;
+                        &lt;Row&gt;
+                            &lt;Col className="text-center"&gt;
+                                &lt;Button
+                                    variant="outline-success"
+                                    onClick={() =&gt; {
+                                        setMessage("buy");
+                                        openModal();
+                                    }}
+                                    data-testid={"buy-cow-button"}
+                                &gt;
+                                    Buy cows
+                                &lt;/Button&gt;
+                            &lt;/Col&gt;
+                            &lt;Col className="text-center"&gt;
+                                &lt;Button
+                                    variant="outline-danger"
+                                    onClick={() =&gt; {
+                                        setMessage("sell");
+                                        openModal();
+                                    }}
+                                    data-testid={"sell-cow-button"}
+                                &gt;
+                                    Sell cows
+                                &lt;/Button&gt;
+                            &lt;/Col&gt;
+                        &lt;/Row&gt;
+                        &lt;p&gt;
+                            Note: Buying cows buys at the current cow price, but
+                            selling cows sells at the current cow price times
+                            the average health of cows as a percentage!
+                        &lt;/p&gt;
+                    &lt;/&gt;
+                )}
+            &lt;/Card.Body&gt;
+        &lt;/Card&gt;
+    );
 };
 &nbsp;
 export default ManageCows;
@@ -322,7 +307,7 @@ export default ManageCows;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:58:09 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

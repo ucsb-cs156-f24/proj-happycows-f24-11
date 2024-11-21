@@ -149,34 +149,21 @@
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a>
-<a name='L98'></a><a href='#L98'>98</a>
-<a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">37x</span>
@@ -248,126 +235,100 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
-import OurTable, {
-  PlaintextColumn,
-  DateColumn,
-} from "main/components/OurTable";
+import OurTable, { PlaintextColumn, DateColumn } from "main/components/OurTable";
 import { Button } from "react-bootstrap";
 import { useBackend } from "main/utils/useBackend";
 &nbsp;
 const PagedJobsTable = () =&gt; {
-  const testId = "PagedJobsTable";
-  const refreshJobsIntervalMilliseconds = 5000;
 &nbsp;
-  const [selectedPage, setSelectedPage] = React.useState(0);
+    const testId = "PagedJobsTable";
+    const refreshJobsIntervalMilliseconds = 5000;
 &nbsp;
-  const pageSize = 10;
+    const [selectedPage, setSelectedPage] = React.useState(0);
 &nbsp;
-  // Stryker disable all
-  const { data: page } = useBackend(
-    ["/api/jobs/all"],
-    {
-      method: "GET",
-      url: "/api/jobs/all/pageable",
-      params: {
-        page: selectedPage,
-        size: pageSize,
-      },
-    },
-    { content: [], totalPages: 0 },
-    { refetchInterval: refreshJobsIntervalMilliseconds }
-  );
-  // Stryker restore  all
+    const pageSize = 10;
 &nbsp;
-  const testid = "PagedJobsTable";
+    // Stryker disable all
+    const {
+        data: page
+    } = useBackend(
+        ["/api/jobs/all"],
+        {
+            method: "GET",
+            url: "/api/jobs/all/pageable",
+            params: {
+                page: selectedPage,
+                size: pageSize,
+            }
+        },
+        {content: [], totalPages: 0},
+        { refetchInterval: refreshJobsIntervalMilliseconds }
+    );
+    // Stryker restore  all
 &nbsp;
-  const previousPageCallback = () =&gt; {
-    return () =&gt; {
-      setSelectedPage(selectedPage - 1);
-    };
-  };
+    const testid = "PagedJobsTable";
 &nbsp;
-  const nextPageCallback = () =&gt; {
-    return () =&gt; {
-      setSelectedPage(selectedPage + 1);
-    };
-  };
+    const previousPageCallback = () =&gt; {
+        return () =&gt; {
+            setSelectedPage(selectedPage - 1);
+        }
+    }
 &nbsp;
-  const columns = [
-    {
-      Header: "id",
-      accessor: "id", // accessor is the "key" in the data
-    },
-    DateColumn("Created", (cell) =&gt; cell.row.original.createdAt),
-    DateColumn("Updated", (cell) =&gt; cell.row.original.updatedAt),
-    {
-      Header: "Status",
-      accessor: "status",
-    },
-    PlaintextColumn("Log", (cell) =&gt; cell.row.original.log),
-  ];
+    const nextPageCallback = () =&gt; {
+        return () =&gt; {
+            setSelectedPage(selectedPage + 1);
+        }
+    }
 &nbsp;
-  const sortees = React.useMemo(
-    () =&gt; [
-      {
-        id: "id",
-        desc: true,
-      },
-    ],
-    // Stryker disable next-line all
-    []
-  );
+    const columns = [
+        {
+            Header: 'id',
+            accessor: 'id', // accessor is the "key" in the data
+        },
+        DateColumn('Created', (cell) =&gt; cell.row.original.createdAt),
+        DateColumn('Updated', (cell) =&gt; cell.row.original.updatedAt),
+        {
+            Header: 'Status',
+            accessor: 'status'
+        },
+        PlaintextColumn('Log', (cell) =&gt; cell.row.original.log),
+    ];
 &nbsp;
-  return (
-    &lt;&gt;
-      &lt;p&gt;Page: {selectedPage + 1}&lt;/p&gt;
-      &lt;Button
-        data-testid={`${testId}-previous-button`}
-        onClick={previousPageCallback()}
-        disabled={selectedPage === 0}
-      &gt;
-        Previous
-      &lt;/Button&gt;
-      &lt;Button
-        data-testid={`${testId}-next-button`}
-        onClick={nextPageCallback()}
-        disabled={page.totalPages === 0 || selectedPage === page.totalPages - 1}
-      &gt;
-        Next
-      &lt;/Button&gt;
-      &lt;OurTable
-        data={page.content}
-        columns={columns}
-        testid={testid}
-        initialState={{ sortBy: sortees }}
-      /&gt;
-    &lt;/&gt;
-  );
-};
+    const sortees = React.useMemo(
+        () =&gt; [
+            {
+                id: "id",
+                desc: true
+            }
+        ],
+        // Stryker disable next-line all
+        []
+    );
 &nbsp;
-export default PagedJobsTable;
-&nbsp;</pre></td></tr></table></pre>
+    return (
+        &lt;&gt;
+            &lt;p&gt;Page: {selectedPage + 1}&lt;/p&gt;
+            &lt;Button data-testid={`${testId}-previous-button`}onClick={previousPageCallback()} disabled={ selectedPage === 0}&gt;Previous&lt;/Button&gt;
+            &lt;Button data-testid={`${testId}-next-button`} onClick={nextPageCallback()} disabled={page.totalPages===0 || selectedPage === page.totalPages-1}&gt;Next&lt;/Button&gt;
+            &lt; OurTable
+                data={page.content}
+                columns={columns}
+                testid={testid}
+                initialState={{ sortBy: sortees }}
+            /&gt;
+        &lt;/&gt;
+    );
+}; 
+&nbsp;
+export default PagedJobsTable;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:58:09 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

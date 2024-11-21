@@ -113,22 +113,7 @@
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -156,25 +141,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -198,74 +168,59 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 &nbsp;
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import getBackgroundImage from "main/components/Utils/HomePageBackground";
-import { useSystemInfo } from "main/utils/systemInfo";
+import { useSystemInfo} from "main/utils/systemInfo";
 &nbsp;
 const LoginCard = () =&gt; {
   const { data: systemInfo } = useSystemInfo();
   var oauthLogin = systemInfo.oauthLogin || "/oauth2/authorization/google";
   return (
-    &lt;Card
-      style={
-        // Stryker disable next-line all : no need to unit test CSS
-        { width: "18rem" }
-      }
-    &gt;
+    &lt;Card style={
+      // Stryker disable next-line all : no need to unit test CSS
+      { width: '18rem' }
+    }&gt;
       &lt;Card.Body&gt;
-        &lt;Card.Title data-testid="loginPage-cardTitle"&gt;
-          Welcome to Happy Cows!
-        &lt;/Card.Title&gt;
-        &lt;Card.Text&gt;In order to start playing, please login.&lt;/Card.Text&gt;
-        &lt;Button href={oauthLogin} variant="primary"&gt;
-          Log In
-        &lt;/Button&gt;
+        &lt;Card.Title data-testid="loginPage-cardTitle"&gt;Welcome to Happy Cows!&lt;/Card.Title&gt;
+        &lt;Card.Text&gt;
+          In order to start playing, please login.
+        &lt;/Card.Text&gt;
+        &lt;Button href={oauthLogin} variant="primary"&gt;Log In&lt;/Button&gt;
       &lt;/Card.Body&gt;
     &lt;/Card&gt;
-  );
-};
+  )
+}
 &nbsp;
 export default function LoginPage() {
+&nbsp;
   const time = new Date().getHours();
   const Background = getBackgroundImage(time);
-&nbsp;
+  
   return (
-    &lt;div
-      style={
-        // Stryker disable next-line all : no need to unit test CSS
-        { backgroundSize: "cover", backgroundImage: `url(${Background})` }
-      }
-    &gt;
+    &lt;div  style={
+      // Stryker disable next-line all : no need to unit test CSS
+      { backgroundSize: 'cover', backgroundImage: `url(${Background})` }}&gt;
       &lt;BasicLayout&gt;
-        &lt;Container
-          style={
+        &lt;Container style={
+          // Stryker disable next-line all : no need to unit test CSS
+          { marginTop: "8%" }}&gt;
+          &lt;Row style={
             // Stryker disable next-line all : no need to unit test CSS
-            { marginTop: "8%" }
-          }
-        &gt;
-          &lt;Row
-            style={
-              // Stryker disable next-line all : no need to unit test CSS
-              { alignItems: "center", justifyContent: "center" }
-            }
-          &gt;
-            &lt;Col sm="auto"&gt;
-              &lt;LoginCard /&gt;
-            &lt;/Col&gt;
+            { alignItems: "center", justifyContent: "center" }}&gt;
+            &lt;Col sm="auto"&gt;&lt;LoginCard /&gt;&lt;/Col&gt;
           &lt;/Row&gt;
         &lt;/Container&gt;
       &lt;/BasicLayout&gt;
     &lt;/div&gt;
-  );
+  )
 }
 &nbsp;
-export { LoginCard };
-&nbsp;</pre></td></tr></table></pre>
+export { LoginCard };</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:58:09 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../prettify.js"></script>
         <script>

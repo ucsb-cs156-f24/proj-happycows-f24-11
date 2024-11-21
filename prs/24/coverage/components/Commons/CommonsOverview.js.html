@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -96,23 +96,8 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a>
-<a name='L41'></a><a href='#L41'>41</a>
-<a name='L42'></a><a href='#L42'>42</a>
-<a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a>
-<a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -122,25 +107,8 @@
 <span class="cline-any cline-yes">129x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">129x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">129x</span>
 <span class="cline-any cline-yes">129x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -168,56 +136,40 @@ import { hasRole } from "main/utils/currentUser";
 import { daysSinceTimestamp } from "main/utils/dateUtils";
 &nbsp;
 export default function CommonsOverview({ commonsPlus, currentUser }) {
-  let navigate = useNavigate();
-  // Stryker disable next-line all
-  const leaderboardButtonClick = () =&gt; {
-    navigate("/leaderboard/" + commonsPlus.commons.id);
-  };
-  const showLeaderboard =
-    hasRole(currentUser, "ROLE_ADMIN") || commonsPlus.commons.showLeaderboard;
-  return (
-    &lt;Card data-testid="CommonsOverview"&gt;
-      &lt;Card.Header as="h5" className="woodenboardtable"&gt;
-        Announcements
-      &lt;/Card.Header&gt;
-      &lt;Card.Body
-        style={
-          // Stryker disable next-line all: don't test CSS params
-          { backgroundColor: "rgb(245, 210, 140)" }
-        }
-      &gt;
-        &lt;Row&gt;
-          &lt;Col&gt;
-            &lt;Card.Title&gt;
-              Today is day{" "}
-              {daysSinceTimestamp(commonsPlus.commons.startingDate)}!
-            &lt;/Card.Title&gt;
-            &lt;Card.Text&gt;Total Players: {commonsPlus.totalUsers}&lt;/Card.Text&gt;
-          &lt;/Col&gt;
-          &lt;Col&gt;
-            {showLeaderboard &amp;&amp; (
-              &lt;Button
-                variant="outline-success"
-                data-testid="user-leaderboard-button"
-                onClick={leaderboardButtonClick}
-              &gt;
-                Leaderboard
-              &lt;/Button&gt;
-            )}
-          &lt;/Col&gt;
-        &lt;/Row&gt;
-      &lt;/Card.Body&gt;
-    &lt;/Card&gt;
-  );
-}
-&nbsp;</pre></td></tr></table></pre>
+&nbsp;
+    let navigate = useNavigate();
+    // Stryker disable next-line all
+    const leaderboardButtonClick = () =&gt; { navigate("/leaderboard/" + commonsPlus.commons.id) };
+    const showLeaderboard = (hasRole(currentUser, "ROLE_ADMIN") || commonsPlus.commons.showLeaderboard );
+    return (
+        &lt;Card data-testid="CommonsOverview"&gt;
+            &lt;Card.Header as="h5" className = "woodenboardtable"&gt;Announcements&lt;/Card.Header&gt;
+            &lt;Card.Body style={
+                // Stryker disable next-line all: don't test CSS params
+                {backgroundColor: "rgb(245, 210, 140)"}}&gt;
+                &lt;Row&gt;
+                    &lt;Col&gt;
+                        &lt;Card.Title&gt;Today is day {daysSinceTimestamp(commonsPlus.commons.startingDate)}!&lt;/Card.Title&gt;
+                        &lt;Card.Text&gt;Total Players: {commonsPlus.totalUsers}&lt;/Card.Text&gt;
+                    &lt;/Col&gt;
+                    &lt;Col&gt;
+                        {showLeaderboard &amp;&amp;
+                        (&lt;Button variant="outline-success" data-testid="user-leaderboard-button" onClick={leaderboardButtonClick}&gt;
+                            Leaderboard
+                        &lt;/Button&gt;)}
+                    &lt;/Col&gt;
+                &lt;/Row&gt;
+            &lt;/Card.Body&gt;
+        &lt;/Card&gt;
+    );
+}; </pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:58:09 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

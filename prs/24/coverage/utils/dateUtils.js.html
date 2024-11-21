@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>31/31</span>
+                <span class='fraction'>30/30</span>
             </div>
         
             
@@ -115,26 +115,12 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">8x</span>
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">79x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-yes">37x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
@@ -181,27 +167,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const padWithZero = (n) =&gt; {
-  return n &lt; 10 ? "0" + n : n;
-};
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
+const padWithZero = (n) =&gt; { return n &lt; 10 ? '0' + n : n; }
 &nbsp;
 const timestampToDate = (timestamp) =&gt; {
-  var date = new Date(timestamp);
-  return (
-    date.getFullYear() +
-    "-" +
-    padWithZero(date.getMonth() + 1) +
-    "-" +
-    padWithZero(date.getDate())
-  );
-};
+    var date = new Date(timestamp);
+    return (date.getFullYear() + "-" + (padWithZero(date.getMonth()+1)) + "-" + padWithZero(date.getDate()));
+}
 &nbsp;
 const daysSinceTimestamp = (date) =&gt; {
-  var today = new Date();
-  var startingDate = new Date(date);
-  var timeDiff = Math.abs(today.getTime() - startingDate.getTime());
-  return Math.ceil(timeDiff / (1000 * 3600 * 24));
-};
+    var today = new Date();
+    var startingDate = new Date(date);
+    var timeDiff = Math.abs(today.getTime() - startingDate.getTime());
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+}
 &nbsp;
 const minutesInSeconds = 60;
 const hourInSeconds = 60 * minutesInSeconds;
@@ -209,37 +188,37 @@ const dayInSeconds = 24 * hourInSeconds;
 const weekInSeconds = 7 * dayInSeconds;
 &nbsp;
 export function formatTime(timeString) {
-  if (!timeString) {
-    return "";
-  }
+    if (!timeString) {
+        return "";
+    }
 &nbsp;
-  const now = new Date();
-  const dateFromEpoch = new Date(timeString);
-  const secondsPast = Math.floor((now - dateFromEpoch) / 1000);
+    const now = new Date();
+    const dateFromEpoch = new Date(timeString);
+    const secondsPast = Math.floor((now - dateFromEpoch) / 1000);
 &nbsp;
-  if (secondsPast &lt; minutesInSeconds * 2) {
-    return "Online now";
-  }
+    if (secondsPast &lt; minutesInSeconds * 2) {
+        return 'Online now';
+    }
 &nbsp;
-  if (secondsPast &lt; hourInSeconds) {
-    const minutes = Math.floor(secondsPast / 60);
-    return `${minutes} minutes ago`;
-  }
+    if (secondsPast &lt; hourInSeconds) {
+        const minutes = Math.floor(secondsPast / 60);
+        return `${minutes} minutes ago`;
+    }
 &nbsp;
-  if (secondsPast &lt; dayInSeconds) {
-    const hours = Math.floor(secondsPast / 3600);
-    return `${hours} hour${hours &gt; 1 ? "s" : ""} ago`;
-  }
+    if (secondsPast &lt; dayInSeconds) {
+        const hours = Math.floor(secondsPast / 3600);
+        return `${hours} hour${hours &gt; 1 ? 's' : ''} ago`;
+    }
+    
+    if (secondsPast &lt; weekInSeconds) {
+        const days = Math.floor(secondsPast / 86400);
+        return `${days} day${days &gt; 1 ? 's' : ''} ago`;
+    }
 &nbsp;
-  if (secondsPast &lt; weekInSeconds) {
-    const days = Math.floor(secondsPast / 86400);
-    return `${days} day${days &gt; 1 ? "s" : ""} ago`;
-  }
-&nbsp;
-  return dateFromEpoch.toLocaleDateString();
+    return dateFromEpoch.toLocaleDateString();
 }
 &nbsp;
-export { timestampToDate, padWithZero, daysSinceTimestamp };
+export {timestampToDate, padWithZero, daysSinceTimestamp};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -247,7 +226,7 @@ export { timestampToDate, padWithZero, daysSinceTimestamp };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:58:09 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../prettify.js"></script>
         <script>

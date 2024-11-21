@@ -125,17 +125,7 @@
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -148,6 +138,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
@@ -170,10 +161,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -199,21 +187,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import { useParams } from "react-router-dom";
 import ReportTable from "main/components/Reports/ReportTable";
 import ReportHeaderTable from "main/components/Reports/ReportHeaderTable";
 import ReportLineTable from "main/components/Reports/ReportLineTable";
-import { useBackend } from "main/utils/useBackend";
+import { useBackend } from 'main/utils/useBackend';
 import { Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 &nbsp;
@@ -221,27 +201,27 @@ export default function AdminViewReportPage() {
   const { reportId } = useParams();
   const navigate = useNavigate();
 &nbsp;
-  // Stryker disable  all
-  const { data: reportHeader } = useBackend(
-    ["/api/reports/byReportId"],
-    {
-      method: "GET",
-      url: "/api/reports/byReportId",
-      params: { reportId: reportId },
-    },
-    []
-  );
+  // Stryker disable  all 
+  const { data: reportHeader } =
+    useBackend(
+      ["/api/reports/byReportId"],
+      {
+        method: "GET", url: "/api/reports/byReportId",
+        params: { reportId: reportId },
+      },
+      []
+    );
 &nbsp;
-  const { data: reportLines } = useBackend(
-    ["/api/reports/lines"],
-    {
-      method: "GET",
-      url: "/api/reports/lines",
-      params: { reportId: reportId },
-    },
-    []
-  );
-  // Stryker restore  all
+  const { data: reportLines } =
+    useBackend(
+      ["/api/reports/lines"],
+      {
+        method: "GET", url: "/api/reports/lines",
+        params: { reportId: reportId },
+      },
+      []
+    );
+  // Stryker restore  all 
 &nbsp;
   return (
     &lt;BasicLayout&gt;
@@ -251,34 +231,24 @@ export default function AdminViewReportPage() {
             &lt;h1&gt;Instructor Report&lt;/h1&gt;
           &lt;/Col&gt;
           &lt;Col&gt;
-            &lt;Button
-              variant="primary"
-              onClick={() =&gt; navigate("/admin/reports")}
-            &gt;
-              Back to Reports
-            &lt;/Button&gt;
+            &lt;Button variant="primary" onClick={() =&gt; navigate("/admin/reports")} &gt;Back to Reports&lt;/Button&gt;
           &lt;/Col&gt;
         &lt;/Row&gt;
         &lt;ReportTable reports={[reportHeader]} buttons={false} /&gt;
         &lt;ReportHeaderTable report={reportHeader} /&gt;
-        &lt;Row className="pt-5"&gt;
+        &lt;Row  className="pt-5"&gt;
           &lt;Col&gt;
             &lt;h2&gt;Farmers&lt;/h2&gt;
           &lt;/Col&gt;
           &lt;Col&gt;
-            &lt;Button
-              variant="secondary"
-              href={`/api/reports/download?reportId=${reportId}`}
-            &gt;
-              Download as CSV
-            &lt;/Button&gt;
+            &lt;Button variant="secondary" href={`/api/reports/download?reportId=${reportId}`} &gt;Download as CSV&lt;/Button&gt;
           &lt;/Col&gt;
         &lt;/Row&gt;
         &lt;ReportLineTable reportLines={reportLines} /&gt;
       &lt;/div&gt;
     &lt;/BasicLayout&gt;
-  );
-}
+  )
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -286,7 +256,7 @@ export default function AdminViewReportPage() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:58:09 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../prettify.js"></script>
         <script>

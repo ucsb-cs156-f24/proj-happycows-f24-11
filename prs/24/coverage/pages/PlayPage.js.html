@@ -298,7 +298,9 @@
 <a name='L233'></a><a href='#L233'>233</a>
 <a name='L234'></a><a href='#L234'>234</a>
 <a name='L235'></a><a href='#L235'>235</a>
-<a name='L236'></a><a href='#L236'>236</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -321,6 +323,8 @@
 <span class="cline-any cline-yes">91x</span>
 <span class="cline-any cline-yes">91x</span>
 <span class="cline-any cline-yes">91x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">91x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -551,222 +555,224 @@ import ChatPanel from "main/components/Chat/ChatPanel";
 import ManageCowsModal from "main/components/Commons/ManageCowsModal";
 &nbsp;
 export default function PlayPage() {
-  const { commonsId } = useParams();
-  const { data: currentUser } = useCurrentUser();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [message, setMessage] = useState();
-  const [numCows, setNumCows] = useState(1);
+    const { commonsId } = useParams();
+    const { data: currentUser } = useCurrentUser();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [message, setMessage] = useState();
+    const [numCows, setNumCows] = useState(1);
 &nbsp;
-  const openModal = () =&gt; {
-    setIsModalOpen(true);
-  };
+    
 &nbsp;
-  const closeModal = () =&gt; {
-    setIsModalOpen(false);
-  };
+    const openModal = () =&gt; {
+        setIsModalOpen(true);
+    };
 &nbsp;
-  // Stryker disable all
-  const { data: userCommons } = useBackend(
-    [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
-    {
-      method: "GET",
-      url: "/api/usercommons/forcurrentuser",
-      params: {
-        commonsId: commonsId,
-      },
+    const closeModal = () =&gt; {
+        setIsModalOpen(false);
+    };
+&nbsp;
+    // Stryker disable all
+    const { data: userCommons } = useBackend(
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`],
+        {
+            method: "GET",
+            url: "/api/usercommons/forcurrentuser",
+            params: {
+                commonsId: commonsId,
+            },
+        }
+    );
+    // Stryker restore all
+&nbsp;
+    // Stryker disable all
+    const { data: commonsPlus } = useBackend(
+        [`/api/commons/plus?id=${commonsId}`],
+        {
+            method: "GET",
+            url: "/api/commons/plus",
+            params: {
+                id: commonsId,
+            },
+        }
+    );
+    // Stryker restore all
+&nbsp;
+    const commonsPlusExists = !(typeof commonsPlus == 'undefined'); 
+    let commonsforuser;
+    let matched; 
+&nbsp;
+    if (commonsPlusExists) { 
+        commonsforuser = currentUser.root.user.commons;
+        matched = commonsforuser.some(com =&gt; com.id === commonsPlus.commons.id);
     }
-  );
-  // Stryker restore all
 &nbsp;
-  // Stryker disable all
-  const { data: commonsPlus } = useBackend(
-    [`/api/commons/plus?id=${commonsId}`],
-    {
-      method: "GET",
-      url: "/api/commons/plus",
-      params: {
-        id: commonsId,
-      },
-    }
-  );
-  // Stryker restore all
+    const allowed = commonsPlusExists &amp;&amp; matched;
+    const notallowed = commonsPlusExists &amp;&amp; !matched;
 &nbsp;
-  const commonsPlusExists = !(typeof commonsPlus == "undefined");
-  let commonsforuser;
-  let matched;
+    // Stryker disable all
+    const { data: userCommonsProfits } = useBackend(
+        [`/api/profits/all/commonsid?commonsId=${commonsId}`],
+        {
+            method: "GET",
+            url: "/api/profits/all/commonsid",
+            params: {
+                commonsId: commonsId,
+            },
+        }
+    );
 &nbsp;
-  if (commonsPlusExists) {
-    commonsforuser = currentUser.root.user.commons;
-    matched = commonsforuser.some((com) =&gt; com.id === commonsPlus.commons.id);
-  }
+    // Stryker restore all
 &nbsp;
-  const allowed = commonsPlusExists &amp;&amp; matched;
-  const notallowed = commonsPlusExists &amp;&amp; !matched;
+    // Stryker disable all (can't check if commonsId is null because it is mocked)
+    const objectToAxiosParamsBuy = (newUserCommons) =&gt; ({
+        url: "/api/usercommons/buy",
+        method: "PUT",
+        data: newUserCommons,
+        params: {
+            commonsId: commonsId,
+            numCows: numCows,
+        },
+    });
+    // Stryker restore all
 &nbsp;
-  // Stryker disable all
-  const { data: userCommonsProfits } = useBackend(
-    [`/api/profits/all/commonsid?commonsId=${commonsId}`],
-    {
-      method: "GET",
-      url: "/api/profits/all/commonsid",
-      params: {
-        commonsId: commonsId,
-      },
-    }
-  );
+    // Stryker disable all
+    const mutationbuy = useBackendMutation(
+        objectToAxiosParamsBuy,
+        null,
+        // Stryker disable next-line all : hard to set up test for caching
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+    );
+    // Stryker restore all
 &nbsp;
-  // Stryker restore all
+    const onBuy = (userCommons, numCows) =&gt; {
+        mutationbuy.mutate(userCommons, numCows);
+    };
 &nbsp;
-  // Stryker disable all (can't check if commonsId is null because it is mocked)
-  const objectToAxiosParamsBuy = (newUserCommons) =&gt; ({
-    url: "/api/usercommons/buy",
-    method: "PUT",
-    data: newUserCommons,
-    params: {
-      commonsId: commonsId,
-      numCows: numCows,
-    },
-  });
-  // Stryker restore all
+    const onSuccessSell = () =&gt; {};
 &nbsp;
-  // Stryker disable all
-  const mutationbuy = useBackendMutation(
-    objectToAxiosParamsBuy,
-    null,
-    // Stryker disable next-line all : hard to set up test for caching
-    [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
-  );
-  // Stryker restore all
+    // Stryker disable all
+    const objectToAxiosParamsSell = (newUserCommons) =&gt; ({
+        url: "/api/usercommons/sell",
+        method: "PUT",
+        data: newUserCommons,
+        params: {
+            commonsId: commonsId,
+            numCows: numCows,
+        },
+    });
+    // Stryker restore all
 &nbsp;
-  const onBuy = (userCommons, numCows) =&gt; {
-    mutationbuy.mutate(userCommons, numCows);
-  };
+    // Stryker disable all
+    const mutationsell = useBackendMutation(
+        objectToAxiosParamsSell,
+        { onSuccess: onSuccessSell },
+        [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
+    );
+    // Stryker restore all
 &nbsp;
-  const onSuccessSell = () =&gt; {};
+    const onSell = (userCommons, numCows) =&gt; {
+        mutationsell.mutate(userCommons, numCows);
+    };
 &nbsp;
-  // Stryker disable all
-  const objectToAxiosParamsSell = (newUserCommons) =&gt; ({
-    url: "/api/usercommons/sell",
-    method: "PUT",
-    data: newUserCommons,
-    params: {
-      commonsId: commonsId,
-      numCows: numCows,
-    },
-  });
-  // Stryker restore all
+    const [isChatOpen, setIsChatOpen] = useState(false);
 &nbsp;
-  // Stryker disable all
-  const mutationsell = useBackendMutation(
-    objectToAxiosParamsSell,
-    { onSuccess: onSuccessSell },
-    [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
-  );
-  // Stryker restore all
+    const toggleChatWindow = () =&gt; {
+        setIsChatOpen((prevState) =&gt; !prevState);
+    };
 &nbsp;
-  const onSell = (userCommons, numCows) =&gt; {
-    mutationsell.mutate(userCommons, numCows);
-  };
+    const chatButtonStyle = {
+        width: "60px",
+        height: "60px",
+        borderRadius: "25%",
+        backgroundColor: "lightblue",
+        color: "black",
+        position: "fixed",
+        bottom: "30px",
+        right: "30px",
+    };
 &nbsp;
-  const [isChatOpen, setIsChatOpen] = useState(false);
+    const chatContainerStyle = {
+        width: "550px",
+        position: "fixed",
+        bottom: "100px",
+        right: "20px",
+    };
 &nbsp;
-  const toggleChatWindow = () =&gt; {
-    setIsChatOpen((prevState) =&gt; !prevState);
-  };
+    const emojiStyle = {
+        fontFamily: "Arial, sans-serif",
+        fontSize: "30px",
+    };
 &nbsp;
-  const chatButtonStyle = {
-    width: "60px",
-    height: "60px",
-    borderRadius: "25%",
-    backgroundColor: "lightblue",
-    color: "black",
-    position: "fixed",
-    bottom: "30px",
-    right: "30px",
-  };
-&nbsp;
-  const chatContainerStyle = {
-    width: "550px",
-    position: "fixed",
-    bottom: "100px",
-    right: "20px",
-  };
-&nbsp;
-  const emojiStyle = {
-    fontFamily: "Arial, sans-serif",
-    fontSize: "30px",
-  };
-&nbsp;
-  return (
-    &lt;div
-      style={{
-        backgroundSize: "cover",
-        backgroundImage: `url(${Background})`,
-      }}
-      data-testid="playpage-div"
-    &gt;
-      &lt;BasicLayout&gt;
-        &lt;Container&gt;
-          {!commonsPlus &amp;&amp; &lt;h1&gt;This commons does not exist!&lt;/h1&gt;}
-          {notallowed &amp;&amp; &lt;h1&gt;You have yet to join this commons!&lt;/h1&gt;}
-          {allowed &amp;&amp; !!currentUser &amp;&amp; (
-            &lt;CommonsPlay currentUser={currentUser} /&gt;
-          )}
-&nbsp;
-          {!!commonsPlus &amp;&amp; (
-            &lt;CommonsOverview
-              commonsPlus={commonsPlus}
-              currentUser={currentUser}
-            /&gt;
-          )}
-          &lt;br /&gt;
-          {!!userCommons &amp;&amp; !!commonsPlus &amp;&amp; (
-            &lt;CardGroup&gt;
-              &lt;ManageCows
-                userCommons={userCommons}
-                commons={commonsPlus.commons}
-                setMessage={setMessage}
-                openModal={openModal}
-              /&gt;
-              &lt;FarmStats userCommons={userCommons} /&gt;
-              &lt;Profits userCommons={userCommons} profits={userCommonsProfits} /&gt;
-              &lt;ManageCowsModal
-                number={numCows}
-                setNumber={setNumCows}
-                userCommons={userCommons}
-                isOpen={isModalOpen}
-                message={message}
-                onClose={closeModal}
-                onBuy={onBuy}
-                onSell={onSell}
-              /&gt;
-            &lt;/CardGroup&gt;
-          )}
-        &lt;/Container&gt;
-      &lt;/BasicLayout&gt;
-      {(hasRole(currentUser, "ROLE_ADMIN") ||
-        (!!commonsPlus &amp;&amp; commonsPlus.commons.showChat)) &amp;&amp; (
-        &lt;div style={chatContainerStyle} data-testid="playpage-chat-div"&gt;
-          {!!isChatOpen &amp;&amp; &lt;ChatPanel commonsId={commonsId} /&gt;}
-          &lt;Button
-            style={chatButtonStyle}
-            onClick={toggleChatWindow}
-            data-testid="playpage-chat-toggle"
-          &gt;
-            {!!isChatOpen ? (
-              &lt;span style={emojiStyle} data-testid="close-icon"&gt;
-                ❌
-              &lt;/span&gt;
-            ) : (
-              &lt;span style={emojiStyle} data-testid="message-icon"&gt;
-                💬
-              &lt;/span&gt;
-            )}
-          &lt;/Button&gt;
+    return (
+        &lt;div
+            style={{
+                backgroundSize: "cover",
+                backgroundImage: `url(${Background})`,
+            }}
+            data-testid="playpage-div"
+        &gt;
+            &lt;BasicLayout&gt;
+                &lt;Container&gt; 
+                    {!commonsPlus &amp;&amp; &lt;h1&gt;This commons does not exist!&lt;/h1&gt;}
+                    {notallowed &amp;&amp; &lt;h1&gt;You have yet to join this commons!&lt;/h1&gt;} 
+                    {allowed &amp;&amp; !!currentUser &amp;&amp; &lt;CommonsPlay currentUser={currentUser} /&gt;}
+                    
+                    {!!commonsPlus &amp;&amp; (
+                        &lt;CommonsOverview
+                            commonsPlus={commonsPlus}
+                            currentUser={currentUser}
+                        /&gt;
+                    )}
+                    &lt;br /&gt;
+                    {!!userCommons &amp;&amp; !!commonsPlus &amp;&amp; (
+                        &lt;CardGroup&gt;
+                            &lt;ManageCows
+                                userCommons={userCommons}
+                                commons={commonsPlus.commons}
+                                setMessage={setMessage}
+                                openModal={openModal}
+                            /&gt;
+                            &lt;FarmStats userCommons={userCommons} /&gt;
+                            &lt;Profits
+                                userCommons={userCommons}
+                                profits={userCommonsProfits}
+                            /&gt;
+                            &lt;ManageCowsModal
+                                number={numCows}
+                                setNumber={setNumCows}
+                                userCommons={userCommons}
+                                isOpen={isModalOpen}
+                                message={message}
+                                onClose={closeModal}
+                                onBuy={onBuy}
+                                onSell={onSell}
+                            /&gt;
+                        &lt;/CardGroup&gt;
+                    )}
+                &lt;/Container&gt;
+            &lt;/BasicLayout&gt;
+            { (hasRole(currentUser, "ROLE_ADMIN") || (!!commonsPlus &amp;&amp; commonsPlus.commons.showChat)) &amp;&amp;
+                &lt;div style={chatContainerStyle} data-testid="playpage-chat-div"&gt;
+                    {!!isChatOpen &amp;&amp; &lt;ChatPanel commonsId={commonsId} /&gt;}
+                    &lt;Button
+                        style={chatButtonStyle}
+                        onClick={toggleChatWindow}
+                        data-testid="playpage-chat-toggle"
+                    &gt;
+                        {!!isChatOpen ? (
+                            &lt;span style={emojiStyle} data-testid="close-icon"&gt;
+                                ❌
+                            &lt;/span&gt;
+                        ) : (
+                            &lt;span style={emojiStyle} data-testid="message-icon"&gt;
+                                💬
+                            &lt;/span&gt;
+                        )}
+                    &lt;/Button&gt;
+                &lt;/div&gt;
+            }
         &lt;/div&gt;
-      )}
-    &lt;/div&gt;
-  );
+    );
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -775,7 +781,7 @@ export default function PlayPage() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Wed Nov 20 2024 16:54:41 GMT-0800 (Pacific Standard Time)
+                at Wed Nov 20 2024 16:58:09 GMT-0800 (Pacific Standard Time)
             </div>
         <script src="../prettify.js"></script>
         <script>
