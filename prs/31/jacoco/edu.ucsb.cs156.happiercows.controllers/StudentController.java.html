@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StudentController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">happycows</a> &gt; <a href="index.source.html" class="el_package">edu.ucsb.cs156.happiercows.controllers</a> &gt; <span class="el_source">StudentController.java</span></div><h1>StudentController.java</h1><pre class="source lang-java linenums">package edu.ucsb.cs156.happiercows.controllers;
+
+import edu.ucsb.cs156.happiercows.entities.Student;
+import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
+import edu.ucsb.cs156.happiercows.repositories.StudentRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Tag(name = &quot;Students&quot;)
+@RequestMapping(&quot;/api/students&quot;)
+@RestController
+<span class="fc" id="L22">@Slf4j</span>
+<span class="fc" id="L23">public class StudentController extends ApiController {</span>
+
+    @Autowired
+    StudentRepository studentRepository;
+
+    @Operation(summary = &quot;Get student by id&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @GetMapping(&quot;&quot;)
+    public Student getById(@RequestParam Long id) throws EntityNotFoundException
+    {
+<span class="fc" id="L33">        Student student = studentRepository</span>
+<span class="fc" id="L34">            .findById(id)</span>
+<span class="fc" id="L35">            .orElseThrow(() -&gt; new EntityNotFoundException(Student.class, id));</span>
+<span class="fc" id="L36">        return student;</span>
+    }
+
+    @Operation(summary = &quot;Post a new student&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PostMapping(&quot;&quot;)
+    public Student postStudent(
+        @Parameter(name = &quot;courseId&quot;) @RequestParam Long courseId,
+        @Parameter(name = &quot;fname&quot;) @RequestParam String fname,
+        @Parameter(name = &quot;lname&quot;) @RequestParam String lname,
+        @Parameter(name = &quot;studentId&quot;) @RequestParam String studentId,
+        @Parameter(name = &quot;email&quot;) @RequestParam String email
+    ) {
+<span class="fc" id="L49">        Student student = new Student();</span>
+<span class="fc" id="L50">        student.setCourseId(courseId);</span>
+<span class="fc" id="L51">        student.setFname(fname);</span>
+<span class="fc" id="L52">        student.setLname(lname);</span>
+<span class="fc" id="L53">        student.setStudentId(studentId);</span>
+<span class="fc" id="L54">        student.setEmail(email);</span>
+        
+<span class="fc" id="L56">        return studentRepository.save(student);</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
