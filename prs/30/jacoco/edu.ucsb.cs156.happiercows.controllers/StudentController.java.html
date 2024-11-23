@@ -29,10 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
     @GetMapping(&quot;&quot;)
     public Student getById(@RequestParam Long id) throws EntityNotFoundException
     {
-<span class="nc" id="L32">        Student student = studentRepository</span>
-<span class="nc" id="L33">            .findById(id)</span>
-<span class="nc" id="L34">            .orElseThrow(() -&gt; new EntityNotFoundException(Student.class, id));</span>
-<span class="nc" id="L35">        return student;</span>
+<span class="fc" id="L32">        Student student = studentRepository</span>
+<span class="fc" id="L33">            .findById(id)</span>
+<span class="pc" id="L34">            .orElseThrow(() -&gt; new EntityNotFoundException(Student.class, id));</span>
+<span class="fc" id="L35">        return student;</span>
     }
 }
 
