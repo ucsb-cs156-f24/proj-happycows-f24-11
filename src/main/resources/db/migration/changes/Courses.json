@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
     {
       "changeSet": {
-        "id": "Course1a",
+        "id": "CoursesTable1",
         "author": "AdenJ",
         "preConditions": [
           {
@@ -12,71 +12,6 @@
               {
                 "tableExists": {
                   "tableName": "COURSES"
-                }
-              }
-        s    ]
-          }
-        ],
-        "changes": [
-          {
-            "createTable": {
-              "columns": [
-                {
-                  "column": {
-                    "autoIncrement": true,
-                    "constraints": {
-                      "primaryKey": true,
-                      "primaryKeyName": "CONSTRAINT_6"
-                    },
-                    "name": "ID",
-                    "type": "BIGINT"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "END_DATE",
-                    "type": "TIMESTAMP"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "NAME",
-                    "type": "VARCHAR(255)"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "START_DATE",
-                    "type": "TIMESTAMP"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "TERM",
-                    "type": "VARCHAR(255)"
-                  }
-                }]
-              ,
-              "tableName": "COURSES"
-            }
-          }]
-        
-      }
-    },
-    
-    {
-      "changeSet": {
-        "id": "Course1b",
-        "author": "AdenJ",
-        "preConditions": [
-          {
-            "onFail": "MARK_RAN"
-          },
-          {
-            "not": [
-              {
-                "tableExists": {
-                  "tableName": "ADMIN"
                 }
               }
             ]
@@ -91,7 +26,7 @@
                     "autoIncrement": true,
                     "constraints": {
                       "primaryKey": true,
-                      "primaryKeyName": "CONSTRAINT_2"
+                      "primaryKeyName": "COURSES_PK"
                     },
                     "name": "ID",
                     "type": "BIGINT"
@@ -99,16 +34,22 @@
                 },
                 {
                   "column": {
-                    "name": "COURSE_ID",
-                    "type": "BIGINT"
+                    "name": "NAME",
+                    "type": "VARCHAR(255)"
                   }
-                }]
-              ,
-              "tableName": "ADMIN"
+                },
+                {
+                  "column": {
+                    "name": "TERM",
+                    "type": "VARCHAR(255)"
+                  }
+                }
+              ],
+              "tableName": "COURSES"
             }
-          }]
-        
+          }
+        ]    
       }
-    }
-    
-  ]}
+    } 
+  ]
+}
