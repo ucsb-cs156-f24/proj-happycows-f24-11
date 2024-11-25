@@ -1,7 +1,7 @@
 import React from "react";
  import OurTable, { ButtonColumn } from "main/components/OurTable"
  import { useBackendMutation } from "main/utils/useBackend";
- import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/components/Utils/CoursesUtils"
+ import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/coursesUtils";
  import { useNavigate } from "react-router-dom";
  import { hasRole } from "main/utils/currentUser";
 

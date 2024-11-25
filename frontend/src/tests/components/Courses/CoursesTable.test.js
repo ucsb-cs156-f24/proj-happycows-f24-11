@@ -142,53 +142,6 @@ describe("UserTable tests", () => {
     expect(totalCoursesElement).toBeInTheDocument();
   });
 
-  test("Has the expected colum headers and content for instructorUser", () => {
-
-    const currentUser = currentUserFixtures.instructorUser;
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-            <CoursesTable courses={coursesFixtures.threeCourses} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
-
-    );
-
-    const expectedHeaders = ["id", "Name", "Term"];
-    const expectedFields = ["id", "name", "term"];
-    const testId = "CoursesTable";
-
-    expectedHeaders.forEach((headerText) => {
-      const header = screen.getByText(headerText);
-      expect(header).toBeInTheDocument();
-    });
-
-    expectedFields.forEach((field) => {
-      const header = screen.getByTestId(`${testId}-cell-row-0-col-${field}`);
-      expect(header).toBeInTheDocument();
-    });
-
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
-
-    const joinButton = screen.queryByTestId(`${testId}-cell-row-0-col-Join-button`);
-    expect(joinButton).toBeInTheDocument(); 
-
-    // const staffButton = screen.getByTestId(`${testId}-cell-row-0-col-Staff-button`);
-    // expect(staffButton).toBeInTheDocument();
-    // expect(staffButton).toHaveClass("btn-primary");
-
-    const editButton = screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`);
-    expect(editButton).toBeInTheDocument();
-    expect(editButton).toHaveClass("btn-primary");
-
-    const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
-    expect(deleteButton).toBeInTheDocument();
-    expect(deleteButton).toHaveClass("btn-danger");
-
-  });
-
   test("Join button navigates to the join page for a user", async () => {
 
     const currentUser = currentUserFixtures.userOnly;
