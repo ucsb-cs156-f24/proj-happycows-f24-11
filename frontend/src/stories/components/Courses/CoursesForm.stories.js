@@ -4,7 +4,7 @@ import { coursesFixtures } from 'fixtures/coursesFixtures';
 
 export default {
     title: 'components/Courses/CoursesForm',
-    component: CoursesForm
+    component:CoursesForm
 };
 
 
