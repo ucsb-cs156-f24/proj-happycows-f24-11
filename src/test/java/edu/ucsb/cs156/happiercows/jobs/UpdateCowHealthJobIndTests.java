@@ -22,13 +22,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -42,7 +42,7 @@ public class UpdateCowHealthJobIndTests extends JobTestCase {
 
         @Mock
         UserRepository userRepository;
-        
+
         @Mock
         CommonsPlusBuilderService commonsPlusBuilderService;
 
@@ -105,37 +105,57 @@ public class UpdateCowHealthJobIndTests extends JobTestCase {
                 assertEquals(expected, job.getLog());
         }
 
+        @Test
+        void test_update_one_commons() throws Exception {
 
-    @Test
-    void test_update_one_commons() throws Exception {
-        
-        List<Commons> listOfCommons = List.of(commons); 
-        CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalCows(1).totalUsers(1).build();
+                List<Commons> listOfCommons = List.of(commons);
+                CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalCows(1).totalUsers(1).build();
 
-        List<CommonsPlus> listOfCommonsPlus = List.of(commonsPlus);
-        commons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear);
+                List<CommonsPlus> listOfCommonsPlus = List.of(commonsPlus);
+                commons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear);
 
-        when(commonsRepository.findAll()).thenReturn(listOfCommons);
-        when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
-        when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(1));
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-        when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(1));
-        when(commonsPlusBuilderService.convertToCommonsPlus(eq(listOfCommons))).thenReturn(listOfCommonsPlus);
-        when(commonsPlusBuilderService.toCommonsPlus(eq(commons))).thenReturn(commonsPlus);
-        when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(commons));
+                when(commonsRepository.findAll()).thenReturn(listOfCommons);
+                when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
+                when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(1));
+                when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+                when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(1));
+                when(commonsPlusBuilderService.convertToCommonsPlus(eq(listOfCommons))).thenReturn(listOfCommonsPlus);
+                when(commonsPlusBuilderService.toCommonsPlus(eq(commons))).thenReturn(commonsPlus);
+                when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(commons));
 
-        
+                runUpdateCowHealthJob();
 
-        runUpdateCowHealthJob();
+                String expected = """
+                                Updating cow health...
+                                Commons test commons, degradationRate: 1.0, effectiveCapacity: 100
+                                User: Chris Gaucho, numCows: 1, cowHealth: 10.0
+                                 old cow health: 10.0, new cow health: 100.0
+                                Cow health has been updated!""";
 
-        String expected = """
-                        Updating cow health...
-                        Commons test commons, degradationRate: 1.0, effectiveCapacity: 100
-                        User: Chris Gaucho, numCows: 1, cowHealth: 10.0
-                         old cow health: 10.0, new cow health: 100.0
-                        Cow health has been updated!""";
+                assertEquals(expected, job.getLog());
+        }
 
-        assertEquals(expected, job.getLog());
-    }
+        @Test
+        void test_getCommonsID_returns_correct_value() {
+                // Arrange
+                CommonsRepository commonsRepositoryMock = mock(CommonsRepository.class);
+                UserCommonsRepository userCommonsRepositoryMock = mock(UserCommonsRepository.class);
+                UserRepository userRepositoryMock = mock(UserRepository.class);
+                CommonsPlusBuilderService commonsPlusBuilderServiceMock = mock(CommonsPlusBuilderService.class);
+                Long expectedCommonsID = 42L;
+
+                UpdateCowHealthJobInd updateCowHealthJobInd = new UpdateCowHealthJobInd(
+                                commonsRepositoryMock,
+                                userCommonsRepositoryMock,
+                                userRepositoryMock,
+                                commonsPlusBuilderServiceMock,
+                                expectedCommonsID);
+
+                // Act
+                Long actualCommonsID = updateCowHealthJobInd.getCommonsID();
+
+                // Assert
+                assertEquals(expectedCommonsID, actualCommonsID);
+        }
 
 }

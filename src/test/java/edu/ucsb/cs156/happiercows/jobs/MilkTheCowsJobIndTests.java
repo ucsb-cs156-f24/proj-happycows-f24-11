@@ -27,96 +27,113 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration
 public class MilkTheCowsJobIndTests extends JobTestCase {
-    @Mock
-    CommonsRepository commonsRepository;
+        @Mock
+        CommonsRepository commonsRepository;
 
-    @Mock
-    UserCommonsRepository userCommonsRepository;
+        @Mock
+        UserCommonsRepository userCommonsRepository;
 
-    @Mock
-    UserRepository userRepository;
+        @Mock
+        UserRepository userRepository;
 
-    @Mock
-    ProfitRepository profitRepository;
+        @Mock
+        ProfitRepository profitRepository;
 
-    private User user = User
-            .builder()
-            .id(1L)
-            .fullName("Chris Gaucho")
-            .email("cgaucho@example.org")
-            .build();
+        private User user = User
+                        .builder()
+                        .id(1L)
+                        .fullName("Chris Gaucho")
+                        .email("cgaucho@example.org")
+                        .build();
 
-    private Commons testCommons = Commons
-            .builder()
-            .name("test commons")
-            .cowPrice(10)
-            .milkPrice(2)
-            .startingBalance(300)
-            .startingDate(LocalDateTime.now())
-            .carryingCapacity(100)
-            .degradationRate(0.01)
-            .build();
+        private Commons testCommons = Commons
+                        .builder()
+                        .name("test commons")
+                        .cowPrice(10)
+                        .milkPrice(2)
+                        .startingBalance(300)
+                        .startingDate(LocalDateTime.now())
+                        .carryingCapacity(100)
+                        .degradationRate(0.01)
+                        .build();
 
-    @Test
-    void error_msg_when_no_commons_found() throws Exception {
+        @Test
+        void error_msg_when_no_commons_found() throws Exception {
 
-        // Arrange
-        Job jobStarted = Job.builder().build();
-        JobContext ctx = new JobContext(null, jobStarted);
+                // Arrange
+                Job jobStarted = Job.builder().build();
+                JobContext ctx = new JobContext(null, jobStarted);
 
-        when(commonsRepository.findById(1L)).thenReturn(Optional.empty());
+                when(commonsRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // Act
-        MilkTheCowsJobInd MilkTheCowsJobInd = new MilkTheCowsJobInd(commonsRepository, userCommonsRepository,
-                userRepository, profitRepository, 1L);
-        MilkTheCowsJobInd.accept(ctx);
+                // Act
+                MilkTheCowsJobInd MilkTheCowsJobInd = new MilkTheCowsJobInd(commonsRepository, userCommonsRepository,
+                                userRepository, profitRepository, 1L);
+                MilkTheCowsJobInd.accept(ctx);
 
-        // Assert
-        String expected = """
-                Starting to milk the cows
-                No commons found for id 1""";
-        assertEquals(expected, jobStarted.getLog());
-    }
+                // Assert
+                String expected = """
+                                Starting to milk the cows
+                                No commons found for id 1""";
+                assertEquals(expected, jobStarted.getLog());
+        }
 
-    @Test
-    void test_log_output_with_commons_and_user_commons() throws Exception {
+        @Test
+        void test_log_output_with_commons_and_user_commons() throws Exception {
 
-        // Arrange
-        Job jobStarted = Job.builder().build();
-        JobContext ctx = new JobContext(null, jobStarted);
+                // Arrange
+                Job jobStarted = Job.builder().build();
+                JobContext ctx = new JobContext(null, jobStarted);
 
-        UserCommons origUserCommons = UserCommons
-                .builder()
-                .user(user)
-                .commons(testCommons)
-                .totalWealth(300)
-                .numOfCows(1)
-                .cowHealth(10)
-                .build();
+                UserCommons origUserCommons = UserCommons
+                                .builder()
+                                .user(user)
+                                .commons(testCommons)
+                                .totalWealth(300)
+                                .numOfCows(1)
+                                .cowHealth(10)
+                                .build();
 
-        when(commonsRepository.findAll()).thenReturn(Arrays.asList(testCommons));
-        when(userCommonsRepository.findByCommonsId(testCommons.getId()))
-                .thenReturn(Arrays.asList(origUserCommons));
-        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
+                when(commonsRepository.findAll()).thenReturn(Arrays.asList(testCommons));
+                when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                                .thenReturn(Arrays.asList(origUserCommons));
+                when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+                when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+                when(commonsRepository.findById(eq(1L))).thenReturn(Optional.of(testCommons));
 
-        // Act
-        MilkTheCowsJobInd milkTheCowsJobInd = new MilkTheCowsJobInd(commonsRepository, userCommonsRepository,
-                userRepository, profitRepository, 1L);
-        milkTheCowsJobInd.accept(ctx);
-        
+                // Act
+                MilkTheCowsJobInd milkTheCowsJobInd = new MilkTheCowsJobInd(commonsRepository, userCommonsRepository,
+                                userRepository, profitRepository, 1L);
+                milkTheCowsJobInd.accept(ctx);
 
-        // Assert
+                // Assert
 
-        String expected = """
-                Starting to milk the cows
-                Milking cows for Commons: test commons, Milk Price: $2.00
-                User: Chris Gaucho, numCows: 1, cowHealth: 10.0, totalWealth: $300.00
-                Profit for user: Chris Gaucho is: $0.20, newWealth: $300.20
-                Cows have been milked!""";
+                String expected = """
+                                Starting to milk the cows
+                                Milking cows for Commons: test commons, Milk Price: $2.00
+                                User: Chris Gaucho, numCows: 1, cowHealth: 10.0, totalWealth: $300.00
+                                Profit for user: Chris Gaucho is: $0.20, newWealth: $300.20
+                                Cows have been milked!""";
 
-        assertEquals(expected, jobStarted.getLog());
-    }
+                assertEquals(expected, jobStarted.getLog());
+        }
+
+        @Test
+        void test_getCommonsID_returns_correct_value() {
+                // Arrange
+                long expectedCommonsID = 42L; // Use any test value
+                MilkTheCowsJobInd milkTheCowsJobInd = new MilkTheCowsJobInd(
+                                commonsRepository,
+                                userCommonsRepository,
+                                userRepository,
+                                profitRepository,
+                                expectedCommonsID);
+
+                // Act
+                long actualCommonsID = milkTheCowsJobInd.getCommonsID();
+
+                // Assert
+                assertEquals(expectedCommonsID, actualCommonsID);
+        }
 
 }
