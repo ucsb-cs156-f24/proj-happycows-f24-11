@@ -113,7 +113,7 @@ import java.util.Optional;
 
 <span class="fc" id="L114">        int MAX_ANNOUNCEMENTS = 1000;</span>
 <span class="fc" id="L115">        Page&lt;Announcement&gt; announcements = announcementRepository.findByCommonsId(commonsId, PageRequest.of(0, MAX_ANNOUNCEMENTS, Sort.by(&quot;startDate&quot;).descending()));</span>
-<span class="fc" id="L116">        return ResponseEntity.ok(announcements);</span>
+<span class="fc" id="L116">        return ResponseEntity.ok(announcements.getContent());</span>
     }
 
     @Operation(summary = &quot;Get announcements by id&quot;, description = &quot;Get announcement by its id.&quot;)
