@@ -34,5 +34,25 @@ public class StudentController extends ApiController {
             .orElseThrow(() -> new EntityNotFoundException(Student.class, id));
         return student;
     }
+
+    @Operation(summary= "Update a single student by id")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public Student updateStudent(
+            @RequestParam Long id,
+            @RequestBody Student incoming) {
+
+        Student student = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Student.class, id));
+
+        student.setCourseId(incoming.getCourseId());
+        student.setFname(incoming.getFname());
+        student.setLname(incoming.getLname());
+        student.setStudentId(incoming.getStudentId());
+        student.setEmail(incoming.getEmail());
+
+        studentRepository.save(student);
+
+        return student;
+    }
 }
 
