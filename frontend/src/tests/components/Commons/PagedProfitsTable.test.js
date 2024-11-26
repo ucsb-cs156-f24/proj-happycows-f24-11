@@ -198,4 +198,22 @@ describe("PagedProfitsTable tests", () => {
       screen.getByTestId(`${testId}-cell-row-0-col-amount`)
     ).toHaveTextContent("20");
   });
+
+  test("correctly rendered with flex container", async () => {
+
+    // act
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <PagedProfitsTable />
+        </MemoryRouter>
+      </QueryClientProvider>
+
+    );
+
+    const flexContainer = screen.getByTestId('PagedProfitsTable-container');
+    expect(window.getComputedStyle(flexContainer).display).toBe('flex');
+    expect(window.getComputedStyle(flexContainer).overflowX).toBe('auto')
+  }); 
+
 });
