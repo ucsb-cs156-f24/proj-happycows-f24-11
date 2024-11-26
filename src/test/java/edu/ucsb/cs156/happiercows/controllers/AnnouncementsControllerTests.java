@@ -324,7 +324,7 @@ public class AnnouncementsControllerTests extends ControllerTestCase {
         // assert
         verify(announcementRepository, atLeastOnce()).findByCommonsId(commonsId, pageable);
         String responseString = response.getResponse().getContentAsString();
-        String expectedResponseString = mapper.writeValueAsString(announcementPage);
+        String expectedResponseString = mapper.writeValueAsString(announcementPage.getContent());
         assertEquals(expectedResponseString, responseString);
     }
 
@@ -396,7 +396,7 @@ public class AnnouncementsControllerTests extends ControllerTestCase {
         // assert
         verify(announcementRepository, atLeastOnce()).findByCommonsId(commonsId, pageable);
         String responseString = response.getResponse().getContentAsString();
-        String expectedResponseString = mapper.writeValueAsString(announcementPage);
+        String expectedResponseString = mapper.writeValueAsString(announcementPage.getContent());
         assertEquals(expectedResponseString, responseString);
     }
 
