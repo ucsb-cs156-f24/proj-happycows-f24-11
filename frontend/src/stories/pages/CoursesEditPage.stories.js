@@ -8,7 +8,7 @@ import { rest } from "msw";
 import CoursesEditPage from 'main/pages/CoursesEditPage';
 
 export default {
-    title: 'pages/CoursesEditPage',
+    title: 'pages/Courses/CoursesEditPage',
     component: CoursesEditPage
 };
 

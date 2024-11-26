@@ -24,7 +24,7 @@ import AdminCreateAnnouncementsPage from "main/pages/AdminCreateAnnouncementsPag
 
 import CoursesEditPage from "main/pages/CoursesEditPage";
 import CoursesCreatePage from "main/pages/CoursesCreatePage";
-import CourseIndexPage from "main/pages/CoursesIndexPage";
+import CoursesIndexPage from "main/pages/CoursesIndexPage";
 
 function App() {
     const { data: currentUser } = useCurrentUser();
@@ -73,14 +73,14 @@ function App() {
                 element={<LeaderboardPage />}
             />
             <Route path="/play/:commonsId" element={<PlayPage />} />
-            <Route path="/courses" element={<CourseIndexPage />} />
+            <Route path="/courses" element={<CoursesIndexPage />} />
         </>
     ) : null;
 
     const courseRoutes = (hasRole(currentUser, "ROLE_ADMIN")) ? (
         <>
           <Route path="/courses/create" element={<CoursesCreatePage />} />
-          <Route path="/courses" element={<CourseIndexPage />} />
+          <Route path="/courses" element={<CoursesIndexPage />} />
           <Route path="/courses/edit/:id" element={<CoursesEditPage />} />
         </>
       ) : null;
