@@ -8,7 +8,7 @@ on:
   pull_request:
     paths: [src/**, pom.xml, lombok.config]
   push:
-    branches: [ main ]
+    branches: [main]
     paths: [src/**, pom.xml, lombok.config]
 
 jobs:
@@ -17,12 +17,12 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v3.5.2
-    - name: Set up Java (version from .java-version file)
-      uses: actions/setup-java@v3
-      with:
-         distribution: semeru # See: https://github.com/actions/setup-java#supported-distributions
-         java-version-file: ./.java-version
+      - uses: actions/checkout@v3.5.2
+      - name: Set up Java (version from .java-version file)
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin # See: https://github.com/actions/setup-java#supported-distributions
+          java-version-file: ./.java-version
 
-    - name: Run IT tests with Maven
-      run: INTEGRATION=true mvn -B test-compile failsafe:integration-test failsafe:verify
+      - name: Run IT tests with Maven
+        run: INTEGRATION=true mvn -B test-compile failsafe:integration-test failsafe:verify

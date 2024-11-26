@@ -6,31 +6,28 @@ name: "40-check-production-build: Check Production Build (if this fails, deployi
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
-    - uses: szenius/set-timezone@v1.2
-      with:
-        timezoneLinux: "America/Los_Angeles"
-    - uses: actions/checkout@v3.5.2
-    - name: Set up Java (version from .java-version file)
-      uses: actions/setup-java@v3
-      with:
-         distribution: semeru # See: https://github.com/actions/setup-java#supported-distributions
-         java-version-file: ./.java-version
-  
-    - name: Build with Maven
-      env:
-        TEST_PROPERTIES: ${{ secrets.TEST_PROPERTIES }}
-        PRODUCTION: true
-      run: mvn -DskipTests clean dependency:list install
+      - uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "America/Los_Angeles"
+      - uses: actions/checkout@v3.5.2
+      - name: Set up Java (version from .java-version file)
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin # See: https://github.com/actions/setup-java#supported-distributions
+          java-version-file: ./.java-version
 
-  
+      - name: Build with Maven
+        env:
+          TEST_PROPERTIES: ${{ secrets.TEST_PROPERTIES }}
+          PRODUCTION: true
+        run: mvn -DskipTests clean dependency:list install
