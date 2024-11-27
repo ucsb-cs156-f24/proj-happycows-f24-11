@@ -73,12 +73,12 @@ describe("CoursesEditPage tests", () => {
             axiosMock.resetHistory();
             axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
             axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
-            axiosMock.onGet("/api/courses/get", { params: { id: 17 } }).reply(200, {
+            axiosMock.onGet("/api/courses", { params: { id: 17 } }).reply(200, {
                 id: 17,
                 name: "CS 156",
                 term: "f23"
             });
-            axiosMock.onPut('/api/courses/update').reply(200, {
+            axiosMock.onPut('/api/courses').reply(200, {
                 id: "17",
                 name: "CS 148",
                 term: "w23"
