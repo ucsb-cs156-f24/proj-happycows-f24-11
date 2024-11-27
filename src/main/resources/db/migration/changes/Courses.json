@@ -1,0 +1,55 @@
+{ "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "CoursesTable1",
+        "author": "AdenJ",
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN"
+          },
+          {
+            "not": [
+              {
+                "tableExists": {
+                  "tableName": "COURSES"
+                }
+              }
+            ]
+          }
+        ],
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "COURSES_PK"
+                    },
+                    "name": "ID",
+                    "type": "BIGINT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "NAME",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "TERM",
+                    "type": "VARCHAR(255)"
+                  }
+                }
+              ],
+              "tableName": "COURSES"
+            }
+          }
+        ]    
+      }
+    } 
+  ]
+}

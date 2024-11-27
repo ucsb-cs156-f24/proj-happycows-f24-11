@@ -67,8 +67,6 @@ public class UpdateCowHealthJobTests extends JobTestCase {
                         .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
                         .build();
 
-
-
         private final UserCommons userCommons = UserCommons
                         .builder()
                         .user(user)
@@ -77,8 +75,6 @@ public class UpdateCowHealthJobTests extends JobTestCase {
                         .numOfCows(1)
                         .cowHealth(10.0)
                         .build();
-
-
 
         private final Job job = Job.builder().build();
         private final JobContext ctx = new JobContext(null, job);
@@ -99,20 +95,21 @@ public class UpdateCowHealthJobTests extends JobTestCase {
                 assertEquals(expected, job.getLog());
         }
 
-    private void setupUpdateCowHealthTestOnCommons(int totalCows, int numUsers) {
-        List<Commons> listOfCommons = List.of(commons); 
-        CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalCows(totalCows).totalUsers(numUsers).build();
+        private void setupUpdateCowHealthTestOnCommons(int totalCows, int numUsers) {
+                List<Commons> listOfCommons = List.of(commons);
+                CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalCows(totalCows)
+                                .totalUsers(numUsers).build();
 
-        List<CommonsPlus> listOfCommonsPlus = List.of(commonsPlus);
-        
-        when(commonsRepository.findAll()).thenReturn(listOfCommons);
-        when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
-        when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(totalCows));
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-        when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(numUsers));
-        when(commonsPlusBuilderService.convertToCommonsPlus(eq(listOfCommons))).thenReturn(listOfCommonsPlus);
-        when(commonsPlusBuilderService.toCommonsPlus(eq(commons))).thenReturn(commonsPlus);
-    }
+                List<CommonsPlus> listOfCommonsPlus = List.of(commonsPlus);
+
+                when(commonsRepository.findAll()).thenReturn(listOfCommons);
+                when(userCommonsRepository.findByCommonsId(commons.getId())).thenReturn(List.of(userCommons));
+                when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(totalCows));
+                when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+                when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(numUsers));
+                when(commonsPlusBuilderService.convertToCommonsPlus(eq(listOfCommons))).thenReturn(listOfCommonsPlus);
+                when(commonsPlusBuilderService.toCommonsPlus(eq(commons))).thenReturn(commonsPlus);
+        }
 
         @Test
         void test_uses_above_capacity_update_strategy() throws Exception {
@@ -206,7 +203,7 @@ public class UpdateCowHealthJobTests extends JobTestCase {
                                 .cowHealth(20)
                                 .build();
                 commons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear);
-                
+
                 CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalCows(6).totalUsers(1).build();
 
                 List<CommonsPlus> commonsPlusList = List.of(commonsPlus);
@@ -386,5 +383,26 @@ public class UpdateCowHealthJobTests extends JobTestCase {
 
                 Assertions.assertEquals("Error calling getNumUsers(117)",
                                 thrown.getMessage());
+        }
+
+        @Test
+        void test_getCommonsPlusBuilderService_returns_correct_value() {
+                // Arrange
+                CommonsRepository commonsRepositoryMock = mock(CommonsRepository.class);
+                UserCommonsRepository userCommonsRepositoryMock = mock(UserCommonsRepository.class);
+                UserRepository userRepositoryMock = mock(UserRepository.class);
+                CommonsPlusBuilderService expectedService = mock(CommonsPlusBuilderService.class);
+
+                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(
+                                commonsRepositoryMock,
+                                userCommonsRepositoryMock,
+                                userRepositoryMock,
+                                expectedService);
+
+                // Act
+                CommonsPlusBuilderService actualService = updateCowHealthJob.getCommonsPlusBuilderService();
+
+                // Assert
+                assertEquals(expectedService, actualService);
         }
 }
