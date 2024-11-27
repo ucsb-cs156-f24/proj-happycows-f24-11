@@ -1,0 +1,108 @@
+@import url(https://fonts.googleapis.com/css2?family=Rye&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Ewert&family=Sancreek&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Rye&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Ewert&family=Sancreek&display=swap);
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+
+  .woodenboardtable {
+    font-family: "Sancreek";
+    background-color: rgb(147,98,66);
+    background-image: url(../../52558b7a8928e16e2c29.png);
+    background-size: 200% 200%;
+    background-position: 50% 90%;
+    background-repeat: no-repeat;
+  }
+
+  .woodentitle {
+    margin: 10px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 6px solid rgb(99,71,52);
+    background-color: rgb(147,98,66);
+  }
+
+  .brownbackground {
+    background-color: rgb(147,98,66);
+    color: rgb(245, 210, 140);
+  }
+
+  .buttonchange {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 12px;
+    position: relative;
+    top: -7px;
+    left: 25px;
+    transition: background-color 0.3s ease;
+  }
+
+  .buttonchange:hover {
+    background-color: rgb(54, 124, 57); /* New background color on hover */
+  }
+  
+.animate-charcter
+{
+  background-image: linear-gradient(
+    -225deg,
+    #b72525 0%,
+    #e87902 15%,
+    #667503 30%,
+    #04a617 45%,
+    #667503 60%,
+    #e87902 75%,
+    #b72525 100%
+  ); 
+
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: rgb(245, 210, 140);
+  background-clip: text;
+  -webkit-background-clip: text;
+
+
+  display: inline-block;
+  font-size: 50px;
+  font-family: 'Rye', serif;
+}
+
+@-webkit-keyframes textclip {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+@keyframes textclip {
+    to {
+      background-position: 200% center;
+    }
+  }
+.board {
+    width: 60%;
+    margin: auto;
+}
+
+.name {
+    text-align: center;
+}
+
+/*# sourceMappingURL=main.c1dabf2a.css.map*/
