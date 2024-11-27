@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
-@Tag(name = &quot;User information (admin only)&quot;)
+@Tag(name=&quot;User information (admin only)&quot;)
 @RequestMapping(&quot;/api/admin/users&quot;)
 @RestController
 <span class="fc" id="L25">public class UsersController extends ApiController {</span>
@@ -38,11 +38,11 @@ import io.swagger.v3.oas.annotations.Parameter;
 <span class="fc" id="L38">        String body = mapper.writeValueAsString(users);</span>
 <span class="fc" id="L39">        return ResponseEntity.ok().body(body);</span>
     }
-
+    
     @Operation(summary = &quot;Suspend a user by id&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;/suspend&quot;)
-    public Object suspendUser(@Parameter(name = &quot;userId&quot;) @RequestParam long userId) throws JsonProcessingException {
+    public Object suspendUser(@Parameter(name=&quot;userId&quot;) @RequestParam long userId ) throws JsonProcessingException {
 
 <span class="fc" id="L47">        User user = userRepository.findById(userId).orElseThrow(() -&gt; new EntityNotFoundException(User.class, userId));</span>
 
@@ -51,10 +51,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 <span class="fc" id="L51">        return genericMessage(&quot;User with id %d suspended&quot;.formatted(userId));</span>
     }
 
-    @Operation(summary = &quot;Restore a user by id&quot;)
+    @Operation(summary=&quot;Restore a user by id&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;/restore&quot;)
-    public Object restoreUser(@Parameter(name = &quot;userId&quot;) @RequestParam long userId) throws JsonProcessingException {
+    public Object restoreUser(@Parameter(name=&quot;userId&quot;) @RequestParam long userId ) throws JsonProcessingException {
 <span class="fc" id="L58">        User user = userRepository.findById(userId).orElseThrow(() -&gt; new EntityNotFoundException(User.class, userId));</span>
 
 <span class="fc" id="L60">        user.setSuspended(false);</span>
