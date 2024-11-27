@@ -35,15 +35,16 @@ import org.springframework.web.bind.annotation.RestController;
 <span class="fc" id="L35">        return student;</span>
     }
 
+
     @Operation(summary= &quot;Delete a student&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @DeleteMapping(&quot;&quot;)
     public Object deleteArticle(
             @RequestParam Long id) throws EntityNotFoundException {
-<span class="fc" id="L43">        Student student = studentRepository.findById(id).orElseThrow(() -&gt; new EntityNotFoundException(Student.class, id));</span>
+<span class="fc" id="L44">        Student student = studentRepository.findById(id).orElseThrow(() -&gt; new EntityNotFoundException(Student.class, id));</span>
 
-<span class="fc" id="L45">        studentRepository.delete(student);</span>
-<span class="fc" id="L46">        return genericMessage(&quot;Student with id %s deleted&quot;.formatted(id));</span>
+<span class="fc" id="L46">        studentRepository.delete(student);</span>
+<span class="fc" id="L47">        return genericMessage(&quot;Student with id %s deleted&quot;.formatted(id));</span>
     }
 
 }
