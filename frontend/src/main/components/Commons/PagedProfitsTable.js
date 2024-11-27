@@ -83,13 +83,18 @@ const PagedProfitsTable = () => {
         // Stryker disable next-line all
         []
     );
-
-
+    
     return (
         <>
             <p>Page: {selectedPage + 1}</p>
             {page.totalPages > 1 && <Button data-testid={`${testId}-previous-button`}onClick={previousPageCallback()} disabled={ selectedPage === 0}>Previous</Button>}
             {page.totalPages > 1 && <Button data-testid={`${testId}-next-button`} onClick={nextPageCallback()} disabled={selectedPage === page.totalPages-1}>Next</Button>}
+
+            <div 
+                data-testid="PagedProfitsTable-container" 
+                style={{display: "flex", overflowX:"auto"}}
+            >
+
             < OurTable
                 data={page.content}
                 columns={columns}
@@ -97,6 +102,7 @@ const PagedProfitsTable = () => {
                 initialState={{ sortBy: sortees }}
 
             />
+            </div>
         </>
     );
 }; 
