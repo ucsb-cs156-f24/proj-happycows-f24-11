@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.ucsb.cs156.happiercows.entities.Courses;
+import edu.ucsb.cs156.happiercows.repositories.CoursesRepository;
+
 @Tag(name = "Students")
 @RequestMapping("/api/students")
 @RestController
@@ -23,6 +26,9 @@ public class StudentController extends ApiController {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    CoursesRepository coursesRepository;
 
     @Operation(summary = "Get student by id")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -43,6 +49,7 @@ public class StudentController extends ApiController {
             @RequestBody Student incoming) {
 
         Student student = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Student.class, id));
+        coursesRepository.findById(incoming.getCourseId()).orElseThrow(() -> new EntityNotFoundException(Courses.class, courseId));
 
         student.setCourseId(incoming.getCourseId());
         student.setFname(incoming.getFname());

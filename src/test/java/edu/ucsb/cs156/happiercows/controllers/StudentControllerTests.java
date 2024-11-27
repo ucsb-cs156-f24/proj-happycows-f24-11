@@ -125,6 +125,44 @@ public class StudentControllerTests extends ControllerTestCase {
         assertEquals(requestBody, responseString);
     }
 
+    @WithMockUser(roles = { "ADMIN"})
+    @Test
+    public void admin_cannot_assign_invalid_course_id() throws Exception {
+        // arrange
+
+
+        Student student = Student.builder()
+            .courseId(1L)
+            .fname("John")
+            .lname("Doe")
+            .studentId("12345")
+            .email("8TbGZ@example.com")
+            .build();
+
+        Student editedStudent = Student.builder()
+            .courseId(2L)
+            .fname("Bob")
+            .lname("Builder")
+            .studentId("67890")
+            .email("hehe@example.com")
+            .build();
+
+        String requestBody = mapper.writeValueAsString(editedStudent);
+
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+        when(coursesRepository.findById(2L)).thenReturn(Optional.empty());
+
+        // act
+        MvcResult response = mockMvc.perform(
+                        put("/api/students?id=1")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .characterEncoding("utf-8")
+                                        .content(requestBody)
+                                        .with(csrf()))
+                        .andExpect(status().isNotFound()).andReturn();
+    }
+
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
     public void admin_cannot_edit_student_that_does_not_exist() throws Exception {
