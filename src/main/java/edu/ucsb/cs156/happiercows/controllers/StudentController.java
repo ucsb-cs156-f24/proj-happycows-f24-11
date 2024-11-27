@@ -49,7 +49,7 @@ public class StudentController extends ApiController {
             @RequestBody Student incoming) {
 
         Student student = studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Student.class, id));
-        coursesRepository.findById(incoming.getCourseId()).orElseThrow(() -> new EntityNotFoundException(Courses.class, courseId));
+        coursesRepository.findById(incoming.getCourseId()).orElseThrow(() -> new EntityNotFoundException(Courses.class, incoming.getCourseId()));
 
         student.setCourseId(incoming.getCourseId());
         student.setFname(incoming.getFname());

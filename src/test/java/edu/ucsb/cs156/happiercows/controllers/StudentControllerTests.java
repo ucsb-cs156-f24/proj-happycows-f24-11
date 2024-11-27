@@ -7,9 +7,11 @@ import lombok.With;
 import org.springframework.context.annotation.Import;
 
 import edu.ucsb.cs156.happiercows.entities.Student;
+import edu.ucsb.cs156.happiercows.entities.Courses;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
 import edu.ucsb.cs156.happiercows.repositories.StudentRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
+import edu.ucsb.cs156.happiercows.repositories.CoursesRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +46,9 @@ public class StudentControllerTests extends ControllerTestCase {
 
     @MockBean
     UserRepository userRepository;
+
+    @MockBean
+    CoursesRepository coursesRepository;
 
     @WithMockUser(roles = { "USER" })
     @Test
@@ -83,7 +88,7 @@ public class StudentControllerTests extends ControllerTestCase {
                 .andExpect(status().isNotFound());
     }
 
-    @WithMockUser(roles = { "ADMIN", "USER" })
+    @WithMockUser(roles = { "ADMIN" })
     @Test
     public void admin_can_edit_an_existing_student() throws Exception {
         // arrange
@@ -105,9 +110,15 @@ public class StudentControllerTests extends ControllerTestCase {
             .email("hehe@example.com")
             .build();
 
+        Courses course = Courses.builder()
+            .name("Course1")
+            .term("f24")
+            .build();
+
         String requestBody = mapper.writeValueAsString(editedStudent);
 
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+        when(coursesRepository.findById(2L)).thenReturn(Optional.of(course));
 
         // act
         MvcResult response = mockMvc.perform(
@@ -125,7 +136,7 @@ public class StudentControllerTests extends ControllerTestCase {
         assertEquals(requestBody, responseString);
     }
 
-    @WithMockUser(roles = { "ADMIN"})
+    @WithMockUser(roles = { "ADMIN" })
     @Test
     public void admin_cannot_assign_invalid_course_id() throws Exception {
         // arrange
