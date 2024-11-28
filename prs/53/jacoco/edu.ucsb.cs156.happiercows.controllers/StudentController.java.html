@@ -41,6 +41,20 @@ import org.springframework.web.bind.annotation.RestController;
 <span class="fc" id="L41">        return student;</span>
     }
 
+
+
+    @Operation(summary= &quot;Delete a student&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteArticle(
+            @RequestParam Long id) throws EntityNotFoundException {
+<span class="fc" id="L51">        Student student = studentRepository.findById(id).orElseThrow(() -&gt; new EntityNotFoundException(Student.class, id));</span>
+
+<span class="fc" id="L53">        studentRepository.delete(student);</span>
+<span class="fc" id="L54">        return genericMessage(&quot;Student with id %s deleted&quot;.formatted(id));</span>
+    }
+
+
     @Operation(summary = &quot;Post a new student&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;&quot;)
@@ -52,16 +66,16 @@ import org.springframework.web.bind.annotation.RestController;
         @Parameter(name = &quot;email&quot;) @RequestParam String email
     ) {
 
-<span class="fc" id="L55">        coursesRepository.findById(courseId).orElseThrow(() -&gt; new EntityNotFoundException(Courses.class, courseId));</span>
+<span class="fc" id="L69">        coursesRepository.findById(courseId).orElseThrow(() -&gt; new EntityNotFoundException(Courses.class, courseId));</span>
 
-<span class="fc" id="L57">        Student student = new Student();</span>
-<span class="fc" id="L58">        student.setCourseId(courseId);</span>
-<span class="fc" id="L59">        student.setFname(fname);</span>
-<span class="fc" id="L60">        student.setLname(lname);</span>
-<span class="fc" id="L61">        student.setStudentId(studentId);</span>
-<span class="fc" id="L62">        student.setEmail(email);</span>
+<span class="fc" id="L71">        Student student = new Student();</span>
+<span class="fc" id="L72">        student.setCourseId(courseId);</span>
+<span class="fc" id="L73">        student.setFname(fname);</span>
+<span class="fc" id="L74">        student.setLname(lname);</span>
+<span class="fc" id="L75">        student.setStudentId(studentId);</span>
+<span class="fc" id="L76">        student.setEmail(email);</span>
         
-<span class="fc" id="L64">        return studentRepository.save(student);</span>
+<span class="fc" id="L78">        return studentRepository.save(student);</span>
     }
 }
 
