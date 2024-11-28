@@ -32,6 +32,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.test.web.servlet.MvcResult;
 
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Map;
 
@@ -39,6 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
+import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -99,6 +103,50 @@ public class StudentControllerTests extends ControllerTestCase {
         mockMvc.perform(get("/api/students?id=1"))
                 .andExpect(status().isNotFound());
     }
+
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void admin_can_delete_a_student() throws Exception {
+            // arrange
+
+            Student student = new Student();
+            student.setId(1L);
+            student.setCourseId(1L);
+            student.setFname("John");
+            student.setLname("Doe");
+            student.setStudentId("12345");
+            student.setEmail("8TbGZ@example.com");
+
+            when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
+
+            // act
+            MvcResult response = mockMvc.perform(
+                            delete("/api/students?id=1")
+                                            .with(csrf()))
+                            .andExpect(status().isOk()).andReturn();
+
+            // assert
+            verify(studentRepository, times(1)).findById(1L);
+            verify(studentRepository, times(1)).delete(any());
+
+            Map<String, Object> json = responseToJson(response);
+            assertEquals("Student with id 1 deleted", json.get("message"));
+    }
+    
+
+    
+    @WithMockUser(roles = { "ADMIN" })
+    @Test
+    public void admin_cannot_delete_non_existant_student()
+                    throws Exception {
+            // arrange
+
+            when(studentRepository.findById(1L)).thenReturn(Optional.empty());
+            mockMvc.perform(delete("/api/students?id=1").with(csrf()))
+                .andExpect(status().isNotFound());
+    }
+
 
     @WithMockUser(roles = { "ADMIN" })
     @Test
@@ -280,4 +328,5 @@ public class StudentControllerTests extends ControllerTestCase {
             .andExpect(status().isNotFound());
 
     }
+
 }
