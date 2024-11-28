@@ -57,8 +57,7 @@ public class StudentControllerTests extends ControllerTestCase {
     UserRepository userRepository;
 
     @MockBean
-
-    CoursesRepository courseRepository;
+    CoursesRepository coursesRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -147,6 +146,7 @@ public class StudentControllerTests extends ControllerTestCase {
         verify(studentRepository, times(1)).save(editedStudent); // should be saved with correct user
         String responseString = response.getResponse().getContentAsString();
         assertEquals(requestBody, responseString);
+    }
 
     
     @WithMockUser(roles = { "ADMIN" })
@@ -164,7 +164,7 @@ public class StudentControllerTests extends ControllerTestCase {
         course.setId(1L);
 
         when(studentRepository.save(student)).thenReturn(student);
-        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
+        when(coursesRepository.findById(1L)).thenReturn(Optional.of(course));
         
         MvcResult response = mockMvc.perform(post("/api/students")
             .param("courseId", "1")
@@ -268,7 +268,7 @@ public class StudentControllerTests extends ControllerTestCase {
         student.setEmail("8TbGZ@example.com");
 
         when(studentRepository.save(student)).thenReturn(student);
-        when(courseRepository.findById(1L)).thenReturn(Optional.empty());
+        when(coursesRepository.findById(1L)).thenReturn(Optional.empty());
 
         mockMvc.perform(post("/api/students")
             .param("courseId", "1")
