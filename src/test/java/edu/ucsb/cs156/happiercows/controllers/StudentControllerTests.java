@@ -2,29 +2,34 @@ package edu.ucsb.cs156.happiercows.controllers;
 
 
 import edu.ucsb.cs156.happiercows.testconfig.TestConfig;
-import lombok.With;
 
 import org.springframework.context.annotation.Import;
 
 import edu.ucsb.cs156.happiercows.entities.Student;
 import edu.ucsb.cs156.happiercows.entities.Courses;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
+
 import edu.ucsb.cs156.happiercows.repositories.StudentRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 import edu.ucsb.cs156.happiercows.repositories.CoursesRepository;
 
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.ucsb.cs156.happiercows.ControllerTestCase;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Optional;
@@ -33,6 +38,10 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
@@ -48,7 +57,11 @@ public class StudentControllerTests extends ControllerTestCase {
     UserRepository userRepository;
 
     @MockBean
-    CoursesRepository coursesRepository;
+
+    CoursesRepository courseRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @WithMockUser(roles = { "USER" })
     @Test
@@ -134,6 +147,43 @@ public class StudentControllerTests extends ControllerTestCase {
         verify(studentRepository, times(1)).save(editedStudent); // should be saved with correct user
         String responseString = response.getResponse().getContentAsString();
         assertEquals(requestBody, responseString);
+
+    
+    @WithMockUser(roles = { "ADMIN" })
+    @Test  
+    public void admin_users_can_post_student() throws Exception {
+        Student student = new Student();
+        student.setId(0L);
+        student.setCourseId(1L);
+        student.setFname("John");
+        student.setLname("Doe");
+        student.setStudentId("12345");
+        student.setEmail("8TbGZ@example.com");
+
+        Courses course = new Courses();
+        course.setId(1L);
+
+        when(studentRepository.save(student)).thenReturn(student);
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
+        
+        MvcResult response = mockMvc.perform(post("/api/students")
+            .param("courseId", "1")
+            .param("fname", "John")
+            .param("lname", "Doe")
+            .param("studentId", "12345")
+            .param("email", "8TbGZ@example.com")
+            .with(csrf()))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        verify(studentRepository, times(1)).save(student);
+
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("John", json.get("fname"));
+        assertEquals("Doe", json.get("lname"));
+        assertEquals("12345", json.get("studentId"));
+        assertEquals("8TbGZ@example.com", json.get("email"));
+        assertEquals(1, (Integer)json.get("courseId"));   
     }
 
     @WithMockUser(roles = { "ADMIN" })
@@ -204,6 +254,30 @@ public class StudentControllerTests extends ControllerTestCase {
         verify(studentRepository, times(1)).findById(67L);
         Map<String, Object> json = responseToJson(response);
         assertEquals("Student with id 67 not found", json.get("message"));
+    }
+      
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void post_throws_entity_not_found_exception_when_courseid_does_not_exist() throws Exception {
+        Student student = new Student();
+        student.setId(0L);
+        student.setCourseId(1L);
+        student.setFname("John");
+        student.setLname("Doe");
+        student.setStudentId("12345");
+        student.setEmail("8TbGZ@example.com");
+
+        when(studentRepository.save(student)).thenReturn(student);
+        when(courseRepository.findById(1L)).thenReturn(Optional.empty());
+
+        mockMvc.perform(post("/api/students")
+            .param("courseId", "1")
+            .param("fname", "John")
+            .param("lname", "Doe")  
+            .param("studentId", "12345")
+            .param("email", "8TbGZ@example.com")
+            .with(csrf()))
+            .andExpect(status().isNotFound());
 
     }
 }
