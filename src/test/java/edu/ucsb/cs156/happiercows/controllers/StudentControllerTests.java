@@ -199,6 +199,44 @@ public class StudentControllerTests extends ControllerTestCase {
     
     @WithMockUser(roles = { "ADMIN" })
     @Test  
+    public void admin_users_can_get_by_course_id() throws Exception {
+        Student student1 = new Student();
+        student1.setId(1L);
+        student1.setCourseId(1L);
+        student1.setFname("John");
+        student1.setLname("Doe");
+        student1.setStudentId("12345");
+        student1.setEmail("8TbGZ@example.com");
+
+        Student student2 = new Student();
+        student2.setId(2L);
+        student2.setCourseId(1L);
+        student2.setFname("Jane");
+        student2.setLname("Doe");
+        student2.setStudentId("54321");
+        student2.setEmail("0yNt9@example.com");
+
+        when(studentRepository.findAllByCourseId(1L)).thenReturn(java.util.Arrays.asList(student1, student2));
+        mockMvc.perform(get("/api/students/course?courseId=1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].courseId").value(1))
+                .andExpect(jsonPath("$[0].fname").value("John"))
+                .andExpect(jsonPath("$[0].lname").value("Doe"))
+                .andExpect(jsonPath("$[0].studentId").value("12345"))
+                .andExpect(jsonPath("$[0].email").value("8TbGZ@example.com"))
+                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[1].courseId").value(1))
+                .andExpect(jsonPath("$[1].fname").value("Jane"))
+                .andExpect(jsonPath("$[1].lname").value("Doe"))
+                .andExpect(jsonPath("$[1].studentId").value("54321"))
+                .andExpect(jsonPath("$[1].email").value("0yNt9@example.com"));
+    }
+
+
+    @WithMockUser(roles = { "ADMIN" })
+    @Test
     public void admin_users_can_post_student() throws Exception {
         Student student = new Student();
         student.setId(0L);
