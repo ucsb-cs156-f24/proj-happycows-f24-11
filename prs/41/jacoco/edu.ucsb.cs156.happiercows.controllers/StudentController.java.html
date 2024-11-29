@@ -67,15 +67,26 @@ import edu.ucsb.cs156.happiercows.repositories.CoursesRepository;
 
 
 
+    @Operation(summary = &quot;Get all students by course id&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @GetMapping(&quot;/course&quot;)
+    public Iterable&lt;Student&gt; getByCourseId(@RequestParam Long courseId) throws EntityNotFoundException 
+    {
+<span class="fc" id="L75">        Iterable&lt;Student&gt; students = studentRepository.findAllByCourseId(courseId);</span>
+<span class="fc" id="L76">        return students;</span>
+    }
+
+
+
     @Operation(summary= &quot;Delete a student&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @DeleteMapping(&quot;&quot;)
     public Object deleteArticle(
             @RequestParam Long id) throws EntityNotFoundException {
-<span class="fc" id="L75">        Student student = studentRepository.findById(id).orElseThrow(() -&gt; new EntityNotFoundException(Student.class, id));</span>
+<span class="fc" id="L86">        Student student = studentRepository.findById(id).orElseThrow(() -&gt; new EntityNotFoundException(Student.class, id));</span>
 
-<span class="fc" id="L77">        studentRepository.delete(student);</span>
-<span class="fc" id="L78">        return genericMessage(&quot;Student with id %s deleted&quot;.formatted(id));</span>
+<span class="fc" id="L88">        studentRepository.delete(student);</span>
+<span class="fc" id="L89">        return genericMessage(&quot;Student with id %s deleted&quot;.formatted(id));</span>
     }
 
     @Operation(summary = &quot;Post a new student&quot;)
@@ -89,16 +100,17 @@ import edu.ucsb.cs156.happiercows.repositories.CoursesRepository;
         @Parameter(name = &quot;email&quot;) @RequestParam String email
     ) {
 
-<span class="fc" id="L92">        coursesRepository.findById(courseId).orElseThrow(() -&gt; new EntityNotFoundException(Courses.class, courseId));</span>
+<span class="fc" id="L103">        coursesRepository.findById(courseId).orElseThrow(() -&gt; new EntityNotFoundException(Courses.class, courseId));</span>
 
-<span class="fc" id="L94">        Student student = new Student();</span>
-<span class="fc" id="L95">        student.setCourseId(courseId);</span>
-<span class="fc" id="L96">        student.setFname(fname);</span>
-<span class="fc" id="L97">        student.setLname(lname);</span>
-<span class="fc" id="L98">        student.setStudentId(studentId);</span>
-<span class="fc" id="L99">        student.setEmail(email);</span>
+<span class="fc" id="L105">        Student student = new Student();</span>
+<span class="fc" id="L106">        student.setCourseId(courseId);</span>
+<span class="fc" id="L107">        student.setFname(fname);</span>
+<span class="fc" id="L108">        student.setLname(lname);</span>
+<span class="fc" id="L109">        student.setStudentId(studentId);</span>
+<span class="fc" id="L110">        student.setEmail(email);</span>
         
-<span class="fc" id="L101">        return studentRepository.save(student);</span>
+<span class="fc" id="L112">        return studentRepository.save(student);</span>
+
     }
 }
 
