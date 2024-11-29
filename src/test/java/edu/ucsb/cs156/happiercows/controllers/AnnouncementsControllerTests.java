@@ -10,13 +10,14 @@ import static org.mockito.ArgumentMatchers.any;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
@@ -251,7 +252,7 @@ public class AnnouncementsControllerTests extends ControllerTestCase {
         when(announcementRepository.findByAnnouncementId(id)).thenReturn(Optional.empty());
 
         //act 
-        mockMvc.perform(delete("/api/announcements/delete?id={id}", id).with(csrf()))
+        mockMvc.perform(delete("/api/announcements/delete/{id}", id).with(csrf()))
             .andExpect(status().isBadRequest()).andReturn();
 
         // assert
@@ -277,14 +278,14 @@ public class AnnouncementsControllerTests extends ControllerTestCase {
         when(announcementRepository.findByAnnouncementId(id)).thenReturn(Optional.of(announcementObj));
 
         //act 
-        MvcResult response = mockMvc.perform(delete("/api/announcements/delete?id={id}", id).with(csrf()))
-            .andExpect(status().isOk()).andReturn();
+        MvcResult response = mockMvc.perform(delete("/api/announcements/delete/{id}", id).with(csrf()))
+            .andExpect(status().is(200)).andReturn();
 
         // assert
         verify(announcementRepository, atLeastOnce()).findByAnnouncementId(id);
         verify(announcementRepository, atLeastOnce()).delete(any(Announcement.class));
         String responseString = response.getResponse().getContentAsString();
-        String expectedResponseString = mapper.writeValueAsString(announcementObj);
+        String expectedResponseString = "{\"message\":\"announcement with id 0 deleted\"}";
         log.info("Got back from API: {}",responseString);
         assertEquals(expectedResponseString, responseString);
     }

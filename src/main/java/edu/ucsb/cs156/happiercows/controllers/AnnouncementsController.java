@@ -186,8 +186,8 @@ public class AnnouncementsController extends ApiController{
 
     @Operation(summary = "Delete an announcement", description = "Delete an announcement associated with an id")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteAnnouncement(@Parameter(description = "The id of the chat message") @RequestParam Long id) {
+    @DeleteMapping("/delete/{id}")
+    public Object deleteAnnouncement(@Parameter(description = "The id of the chat message") @PathVariable Long id) {
 
         // Try to get the chat message
         Optional<Announcement> announcementLookup = announcementRepository.findByAnnouncementId(id);
@@ -201,7 +201,8 @@ public class AnnouncementsController extends ApiController{
 
         // Hide the message
         announcementRepository.delete(announcementObj);
-        return ResponseEntity.ok(announcementObj);
+        String responseString = String.format("announcement with id %d deleted", id);
+        return genericMessage(responseString);
     }
 
 

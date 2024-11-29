@@ -9,7 +9,7 @@ import { useCurrentUser } from 'main/utils/currentUser';
 
 export default function AdminAnnouncementsPage() {
   const { commonsId } = useParams();
-  const currentUser = useCurrentUser();
+  const { data: currentUser } = useCurrentUser();
 
   // Stryker disable all
   const { data: commonsPlus } = useBackend(
