@@ -186,8 +186,8 @@ import java.util.Optional;
 
     @Operation(summary = &quot;Delete an announcement&quot;, description = &quot;Delete an announcement associated with an id&quot;)
     @PreAuthorize(&quot;hasAnyRole('ROLE_ADMIN')&quot;)
-    @DeleteMapping(&quot;/delete&quot;)
-    public ResponseEntity&lt;Object&gt; deleteAnnouncement(@Parameter(description = &quot;The id of the chat message&quot;) @RequestParam Long id) {
+    @DeleteMapping(&quot;/delete/{id}&quot;)
+    public Object deleteAnnouncement(@Parameter(description = &quot;The id of the chat message&quot;) @PathVariable Long id) {
 
         // Try to get the chat message
 <span class="fc" id="L193">        Optional&lt;Announcement&gt; announcementLookup = announcementRepository.findByAnnouncementId(id);</span>
@@ -201,7 +201,8 @@ import java.util.Optional;
 
         // Hide the message
 <span class="fc" id="L203">        announcementRepository.delete(announcementObj);</span>
-<span class="fc" id="L204">        return ResponseEntity.ok(announcementObj);</span>
+<span class="fc" id="L204">        String responseString = String.format(&quot;announcement with id %d deleted&quot;, id);</span>
+<span class="fc" id="L205">        return genericMessage(responseString);</span>
     }
 
 
