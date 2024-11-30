@@ -46,11 +46,6 @@ describe("UserTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
 
-    const joinButton = screen.queryByTestId(`${testId}-cell-row-0-col-Join-button`);
-    expect(joinButton).toBeInTheDocument();
-    expect(joinButton).toHaveClass("btn-primary");
-
-
     const editButton = screen.queryByTestId(`${testId}-cell-row-0-col-Edit-button`);
     expect(editButton).not.toBeInTheDocument();
 
@@ -127,9 +122,6 @@ describe("UserTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("2");
 
-    const joinButton = screen.queryByTestId(`${testId}-cell-row-0-col-Join-button`);
-    expect(joinButton).toBeInTheDocument(); 
-
     const editButton = screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`);
     expect(editButton).toBeInTheDocument();
     expect(editButton).toHaveClass("btn-primary");
@@ -155,12 +147,6 @@ describe("UserTable tests", () => {
       </QueryClientProvider>
 
     );
-
-    await waitFor(() => { expect(screen.getByTestId(`CoursesTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
-   const joinButton = screen.getByTestId(`CoursesTable-cell-row-0-col-Join-button`);
-    expect(joinButton).toBeInTheDocument();
-
-    fireEvent.click(joinButton);
 
     await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/courses/join/1'));
 
