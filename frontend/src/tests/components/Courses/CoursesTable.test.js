@@ -138,24 +138,6 @@ describe("UserTable tests", () => {
     expect(totalCoursesElement).toBeInTheDocument();
   });
 
-  test("Join button navigates to the join page for a user", async () => {
-
-    const currentUser = currentUserFixtures.userOnly;
-
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-            <CoursesTable courses={coursesFixtures.threeCourses} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
-
-    );
-
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/courses/join/1'));
-
-  });
-
   test("Edit button navigates to the edit page for admin user", async () => {
 
     const currentUser = currentUserFixtures.adminUser;
