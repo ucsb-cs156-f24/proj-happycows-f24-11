@@ -1,4 +1,4 @@
-import CoursesTable from "main/components/Courses/CoursesTable"
+import CoursesTable from "main/componentse/Courses/CoursesTable"
 import { fireEvent, render, waitFor, screen } from "@testing-library/react";
 import { coursesFixtures } from "fixtures/coursesFixtures";
 import { QueryClient, QueryClientProvider } from "react-query";
