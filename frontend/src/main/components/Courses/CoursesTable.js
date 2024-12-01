@@ -45,7 +45,7 @@ import React from "react";
          columns.push(ButtonColumn("Edit", "primary", editCallback, "CoursesTable"));
          columns.push(ButtonColumn("Delete", "danger", deleteCallback, "CoursesTable"));
      }
-
+   
      return (
         <>
             <div>Total Courses: {courses.length}</div>
